@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using MQTTnet.AspNetCore;
 
 namespace IotHub.Broker
 {
@@ -20,6 +15,11 @@ namespace IotHub.Broker
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.UseKestrel(option =>
+                    {
+                        option.ListenAnyIP(1883, listenter => listenter.UseMqtt());
+                        option.ListenAnyIP(4000); // default HTTP Port
+                    });
                     webBuilder.UseStartup<Startup>();
                 });
     }
