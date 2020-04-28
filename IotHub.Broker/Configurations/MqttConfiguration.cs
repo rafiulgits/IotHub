@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using IotHub.Broker.Services;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using MQTTnet.AspNetCore;
 
 namespace IotHub.Broker.Configurations
@@ -7,18 +9,23 @@ namespace IotHub.Broker.Configurations
     {
         public static void ConfigureMqttService(this IServiceCollection services)
         {
-            services.AddSingleton<BrokerManager>();
-            services.AddHostedMqttServerWithServices(configure =>
+            services.AddSingleton<MqttService>();
+            services.AddHostedMqttServerWithServices(options =>
             {
-                var brokerManager = configure.ServiceProvider.GetRequiredService<BrokerManager>();
-                configure
-                .WithDefaultEndpointPort(1883)
-                .WithConnectionValidator(brokerManager.ConnectionValidationHandler)
-                .WithSubscriptionInterceptor(brokerManager.SubscriptionHandler)
-                .WithApplicationMessageInterceptor(brokerManager.IncomingMessageHandler);
+                var mqttService = options.ServiceProvider.GetRequiredService<MqttService>();
+                mqttService.ConfigureMqttServerOptions(options);
             });
             services.AddMqttConnectionHandler();
             services.AddMqttWebSocketServerAdapter();
+        }
+
+        public static void UseConfiguredMqttServer(this IApplicationBuilder app)
+        {
+            app.UseMqttEndpoint();
+            app.UseMqttServer(mqttServer =>
+            {
+                app.ApplicationServices.GetRequiredService<MqttService>().ConfigureMqttServer(mqttServer);
+            });
         }
     }
 }
