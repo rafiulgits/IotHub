@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace IotHub.Broker.Services
 {
-    public class BaseMqttService : IMqttConnectionService, IMqttSubscriptionService, IMqttPublishingService
+    public class MqttBaseService : IMqttConnectionService, IMqttSubscriptionService, IMqttPublishingService
     {
         public Task HandleClientConnectedAsync(MqttServerClientConnectedEventArgs eventArgs)
         {

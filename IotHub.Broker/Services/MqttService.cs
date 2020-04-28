@@ -3,7 +3,7 @@ using MQTTnet.Server;
 
 namespace IotHub.Broker.Services
 {
-    public class MqttService : BaseMqttService, IMqttService
+    public class MqttService : MqttBaseService, IMqttService
     {
         private IMqttServer mqttServer;
 
