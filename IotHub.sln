@@ -1,19 +1,23 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IotHub.Broker", "IotHub.Broker\IotHub.Broker.csproj", "{676DB560-D9EA-47B4-9E6D-B97A12EFD37A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IotHub.Broker", "IotHub.Broker\IotHub.Broker.csproj", "{676DB560-D9EA-47B4-9E6D-B97A12EFD37A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IotHub.DB", "IotHub.DB\IotHub.DB.csproj", "{24049E66-E83A-4114-9CE7-9905C1AF40EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IotHub.DB", "IotHub.DB\IotHub.DB.csproj", "{24049E66-E83A-4114-9CE7-9905C1AF40EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IotHub.API", "IotHub.API\IotHub.API.csproj", "{6B24C94C-1003-4642-BBC0-10671593BC84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IotHub.API", "IotHub.API\IotHub.API.csproj", "{6B24C94C-1003-4642-BBC0-10671593BC84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IotHub.Services", "IotHub.Services\IotHub.Services.csproj", "{19DA18ED-8648-4DBB-96A1-A0BBE8741079}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IotHub.Services", "IotHub.Services\IotHub.Services.csproj", "{19DA18ED-8648-4DBB-96A1-A0BBE8741079}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IotHub.Repositories", "IotHub.Repositories\IotHub.Repositories.csproj", "{42DCD614-A25A-4251-A589-583FF9491285}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IotHub.Repositories", "IotHub.Repositories\IotHub.Repositories.csproj", "{42DCD614-A25A-4251-A589-583FF9491285}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IotHub.Agent", "IotHub.Agent\IotHub.Agent.csproj", "{F0691472-22E9-4AA3-9841-4E3176044FF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IotHub.Agent", "IotHub.Agent\IotHub.Agent.csproj", "{F0691472-22E9-4AA3-9841-4E3176044FF9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IotHub.DomainModels", "IotHub.DomainModels\IotHub.DomainModels.csproj", "{61DE151C-4D51-4829-850E-52AE42689E4C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IotHub.DataTransferObjects", "IotHub.DataTransferObjects\IotHub.DataTransferObjects.csproj", "{F4B4B169-4147-49C2-AA99-7A38C2410C1A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,9 +27,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{676DB560-D9EA-47B4-9E6D-B97A12EFD37A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -100,5 +101,35 @@ Global
 		{F0691472-22E9-4AA3-9841-4E3176044FF9}.Release|x64.Build.0 = Release|Any CPU
 		{F0691472-22E9-4AA3-9841-4E3176044FF9}.Release|x86.ActiveCfg = Release|Any CPU
 		{F0691472-22E9-4AA3-9841-4E3176044FF9}.Release|x86.Build.0 = Release|Any CPU
+		{61DE151C-4D51-4829-850E-52AE42689E4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61DE151C-4D51-4829-850E-52AE42689E4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61DE151C-4D51-4829-850E-52AE42689E4C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{61DE151C-4D51-4829-850E-52AE42689E4C}.Debug|x64.Build.0 = Debug|Any CPU
+		{61DE151C-4D51-4829-850E-52AE42689E4C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{61DE151C-4D51-4829-850E-52AE42689E4C}.Debug|x86.Build.0 = Debug|Any CPU
+		{61DE151C-4D51-4829-850E-52AE42689E4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61DE151C-4D51-4829-850E-52AE42689E4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61DE151C-4D51-4829-850E-52AE42689E4C}.Release|x64.ActiveCfg = Release|Any CPU
+		{61DE151C-4D51-4829-850E-52AE42689E4C}.Release|x64.Build.0 = Release|Any CPU
+		{61DE151C-4D51-4829-850E-52AE42689E4C}.Release|x86.ActiveCfg = Release|Any CPU
+		{61DE151C-4D51-4829-850E-52AE42689E4C}.Release|x86.Build.0 = Release|Any CPU
+		{F4B4B169-4147-49C2-AA99-7A38C2410C1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4B4B169-4147-49C2-AA99-7A38C2410C1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4B4B169-4147-49C2-AA99-7A38C2410C1A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F4B4B169-4147-49C2-AA99-7A38C2410C1A}.Debug|x64.Build.0 = Debug|Any CPU
+		{F4B4B169-4147-49C2-AA99-7A38C2410C1A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F4B4B169-4147-49C2-AA99-7A38C2410C1A}.Debug|x86.Build.0 = Debug|Any CPU
+		{F4B4B169-4147-49C2-AA99-7A38C2410C1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4B4B169-4147-49C2-AA99-7A38C2410C1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4B4B169-4147-49C2-AA99-7A38C2410C1A}.Release|x64.ActiveCfg = Release|Any CPU
+		{F4B4B169-4147-49C2-AA99-7A38C2410C1A}.Release|x64.Build.0 = Release|Any CPU
+		{F4B4B169-4147-49C2-AA99-7A38C2410C1A}.Release|x86.ActiveCfg = Release|Any CPU
+		{F4B4B169-4147-49C2-AA99-7A38C2410C1A}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1E26D54E-5F82-4511-B8C7-FCBC1F31B365}
 	EndGlobalSection
 EndGlobal
