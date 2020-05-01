@@ -8,4 +8,8 @@
     <PackageReference Include="MQTTnet.AspNetCore" Version="3.0.9" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\IotHub.Services\IotHub.Services.csproj" />
+  </ItemGroup>
+
 </Project>

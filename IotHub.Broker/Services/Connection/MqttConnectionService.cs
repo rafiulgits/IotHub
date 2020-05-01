@@ -1,4 +1,5 @@
-﻿using MQTTnet.AspNetCore;
+﻿using IotHub.Services.Authentication;
+using MQTTnet.AspNetCore;
 using MQTTnet.Server;
 using System.Threading.Tasks;
 
@@ -6,7 +7,13 @@ namespace IotHub.Broker.Services.Connection
 {
     public class MqttConnectionService : IMqttConnectionService
     {
+        private readonly IAuthenticationService authenticationService;
         private IMqttServer mqttServer;
+
+        public MqttConnectionService(IAuthenticationService authenticationService)
+        {
+            this.authenticationService = authenticationService;
+        }
 
         public void ConfigureMqttServer(IMqttServer mqttServer)
         {
@@ -30,9 +37,15 @@ namespace IotHub.Broker.Services.Connection
             throw new System.NotImplementedException();
         }
 
-        public Task ValidateConnectionAsync(MqttConnectionValidatorContext context)
+        public async Task ValidateConnectionAsync(MqttConnectionValidatorContext context)
         {
-            throw new System.NotImplementedException();
+            var user = await authenticationService.Authenticate(context.Username, context.Password);
+            if(user != null)
+            {
+                context.ReasonCode = MQTTnet.Protocol.MqttConnectReasonCode.Success;
+                return;
+            }
+            context.ReasonCode = MQTTnet.Protocol.MqttConnectReasonCode.BadUserNameOrPassword;
         }
     }
 }
