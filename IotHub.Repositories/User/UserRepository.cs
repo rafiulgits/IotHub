@@ -29,6 +29,12 @@ namespace IotHub.Repositories.User
             return cursor.FirstOrDefault();
         }
 
+        public async Task<DomainModels.User> GetByNameAsync(string name)
+        {
+            var cursor = await collection.FindAsync(doc => doc.Name == name);
+            return cursor.FirstOrDefault();
+        }
+
         public Task<DomainModels.User> UpdateAsync(DomainModels.User entity)
         {
             throw new System.NotImplementedException();

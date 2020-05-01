@@ -8,4 +8,10 @@
     <PackageReference Include="AutoMapper" Version="9.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\IotHub.DataTransferObjects\IotHub.DataTransferObjects.csproj" />
+    <ProjectReference Include="..\IotHub.DomainModels\IotHub.DomainModels.csproj" />
+    <ProjectReference Include="..\IotHub.Repositories\IotHub.Repositories.csproj" />
+  </ItemGroup>
+
 </Project>
