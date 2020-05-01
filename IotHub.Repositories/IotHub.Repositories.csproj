@@ -4,4 +4,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\IotHub.DomainModels\IotHub.DomainModels.csproj" />
+  </ItemGroup>
+
 </Project>
