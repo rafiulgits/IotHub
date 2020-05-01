@@ -1,10 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\IotHub.DB\IotHub.DB.csproj" />
     <ProjectReference Include="..\IotHub.DomainModels\IotHub.DomainModels.csproj" />
   </ItemGroup>
 

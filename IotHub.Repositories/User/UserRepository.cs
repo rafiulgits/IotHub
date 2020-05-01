@@ -1,12 +1,21 @@
-﻿using System.Threading.Tasks;
+﻿using IotHub.DB.Mongo;
+using MongoDB.Driver;
+using System.Threading.Tasks;
 
 namespace IotHub.Repositories.User
 {
     public class UserRepository : IUserRepository
     {
-        public Task<DomainModels.User> CreateAsync(DomainModels.User entity)
+        private readonly IMongoCollection<DomainModels.User> collection;
+        public UserRepository(MongoDbContext mongoDbContext)
         {
-            throw new System.NotImplementedException();
+            collection = mongoDbContext.Database.GetCollection<DomainModels.User>("user");
+        }
+
+        public async Task<DomainModels.User> CreateAsync(DomainModels.User entity)
+        {
+            await collection.InsertOneAsync(entity);
+            return entity;
         }
 
         public Task<bool> DeleteAsync(string id)
@@ -14,9 +23,10 @@ namespace IotHub.Repositories.User
             throw new System.NotImplementedException();
         }
 
-        public Task<DomainModels.User> GetAsync(string id)
+        public async Task<DomainModels.User> GetAsync(string id)
         {
-            throw new System.NotImplementedException();
+            var cursor = await collection.FindAsync(doc => doc.Id == id);
+            return cursor.FirstOrDefault();
         }
 
         public Task<DomainModels.User> UpdateAsync(DomainModels.User entity)
