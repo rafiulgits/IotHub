@@ -6,14 +6,18 @@ namespace IotHub.Broker.Services.Connection
 {
     public class MqttConnectionService : IMqttConnectionService
     {
-        public void ConfigureMqttServer(IMqttServer mqtt)
+        private IMqttServer mqttServer;
+
+        public void ConfigureMqttServer(IMqttServer mqttServer)
         {
-            throw new System.NotImplementedException();
+            this.mqttServer = mqttServer;
+            mqttServer.ClientConnectedHandler = this;
+            mqttServer.ClientDisconnectedHandler = this;
         }
 
         public void ConfigureMqttServerOptions(AspNetMqttServerOptionsBuilder options)
         {
-            throw new System.NotImplementedException();
+            options.WithConnectionValidator(this);
         }
 
         public Task HandleClientConnectedAsync(MqttServerClientConnectedEventArgs eventArgs)

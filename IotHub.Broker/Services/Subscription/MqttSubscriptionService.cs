@@ -6,14 +6,19 @@ namespace IotHub.Broker.Services.Subscription
 {
     public class MqttSubscriptionService : IMqttSubscriptionService, IMqttConfigurationService
     {
-        public void ConfigureMqttServer(IMqttServer mqtt)
+        private IMqttServer mqttServer;
+
+        public void ConfigureMqttServer(IMqttServer mqttServer)
         {
-            throw new System.NotImplementedException();
+            this.mqttServer = mqttServer;
+            mqttServer.ClientSubscribedTopicHandler = this;
+            mqttServer.ClientUnsubscribedTopicHandler = this;
         }
 
         public void ConfigureMqttServerOptions(AspNetMqttServerOptionsBuilder options)
         {
-            throw new System.NotImplementedException();
+            options.WithSubscriptionInterceptor(this);
+            options.WithUnsubscriptionInterceptor(this);
         }
 
         public Task HandleClientSubscribedTopicAsync(MqttServerClientSubscribedTopicEventArgs eventArgs)

@@ -1,5 +1,5 @@
 ﻿using IotHub.Broker.Services.Connection;
-using IotHub.Broker.Services.Publish;
+using IotHub.Broker.Services.Publishing;
 using IotHub.Broker.Services.Subscription;
 using MQTTnet.AspNetCore;
 using MQTTnet.Server;
@@ -11,8 +11,6 @@ namespace IotHub.Broker.Services.Server
         private readonly IMqttConnectionService mqttConnectionService;
         private readonly IMqttSubscriptionService mqttSubscriptionService;
         private readonly IMqttPublishingService mqttPublishingService;
-
-        private IMqttServer mqttServer;
 
         public MqttServerService(
             IMqttConnectionService mqttConnectionService, 
@@ -26,12 +24,9 @@ namespace IotHub.Broker.Services.Server
 
         public void ConfigureMqttServer(IMqttServer mqttServer)
         {
-            this.mqttServer = mqttServer;
             mqttConnectionService.ConfigureMqttServer(mqttServer);
             mqttSubscriptionService.ConfigureMqttServer(mqttServer);
             mqttPublishingService.ConfigureMqttServer(mqttServer);
-            MapMqttServerInterceptors();
-            
         }
 
         public void ConfigureMqttServerOptions(AspNetMqttServerOptionsBuilder options)
@@ -39,23 +34,6 @@ namespace IotHub.Broker.Services.Server
             mqttConnectionService.ConfigureMqttServerOptions(options);
             mqttSubscriptionService.ConfigureMqttServerOptions(options);
             mqttPublishingService.ConfigureMqttServerOptions(options);
-            MapMqttServerOptions(options);
-        }
-
-        private void MapMqttServerOptions(AspNetMqttServerOptionsBuilder options)
-        {
-            options.WithConnectionValidator(mqttConnectionService);
-            options.WithApplicationMessageInterceptor(mqttPublishingService);
-            options.WithSubscriptionInterceptor(mqttSubscriptionService);
-            options.WithUnsubscriptionInterceptor(mqttSubscriptionService);
-        }
-
-        private void MapMqttServerInterceptors()
-        {
-            mqttServer.ClientConnectedHandler = mqttConnectionService;
-            mqttServer.ClientDisconnectedHandler = mqttConnectionService;
-            mqttServer.ClientSubscribedTopicHandler = mqttSubscriptionService;
-            mqttServer.ClientUnsubscribedTopicHandler = mqttSubscriptionService;
         }
     }
 }
