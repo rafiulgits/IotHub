@@ -24,6 +24,7 @@ namespace IotHub.API
             services.AddDataContext();
             services.AddServicesAndRepositories();
             services.AddSwaggerService();
+            services.AddAutoMapper();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

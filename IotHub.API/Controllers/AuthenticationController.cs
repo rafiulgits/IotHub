@@ -15,9 +15,10 @@ namespace IotHub.API.Controllers
             this.authenticationService = authenticationService;
         }
 
-        public async Task<ActionResult<UserDto>> Login([FromBody] string username, [FromBody] string password)
+        [HttpPost("login")]
+        public async Task<ActionResult<UserDto>> Login([FromBody] UserLoginDto loginData)
         {
-            return await authenticationService.Authenticate(username, password);
+            return await authenticationService.Authenticate(loginData.Name, loginData.Password);
         }
     }
 }

@@ -2,7 +2,7 @@
 {
     public class MongoDbSettings
     {
-        public string Host { get; set; }
-        public string Name { get; set; }
+        public string Host { get; set; } = "mongodb://localhost:27017";
+        public string Name { get; set; } = "iothub";
     }
 }
