@@ -23,7 +23,7 @@ namespace IotHub.Broker.Services.Subscription
 
         public Task HandleClientSubscribedTopicAsync(MqttServerClientSubscribedTopicEventArgs eventArgs)
         {
-            throw new System.NotImplementedException()
+            throw new System.NotImplementedException();
         }
 
         public Task HandleClientUnsubscribedTopicAsync(MqttServerClientUnsubscribedTopicEventArgs eventArgs)

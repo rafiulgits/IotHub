@@ -12,6 +12,7 @@ namespace IotHub.API.Configuration
                 config.AddProfile(new MapperProfile());
             });
             AutoMapper.IMapper mapper = mappingConfiguration.CreateMapper();
+           
             services.AddSingleton(mapper);
         }
     }
