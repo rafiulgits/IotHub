@@ -1,15 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using IotHub.API.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+
 
 namespace IotHub.API
 {
@@ -26,6 +21,9 @@ namespace IotHub.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddDataContext();
+            services.AddServicesAndRepositories();
+            services.AddSwaggerService();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,6 +39,8 @@ namespace IotHub.API
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.AddSwaggerMiddleware();
 
             app.UseEndpoints(endpoints =>
             {
