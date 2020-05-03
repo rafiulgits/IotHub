@@ -1,6 +1,7 @@
 ﻿using IotHub.DataTransferObjects.User;
 using IotHub.Services.User;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace IotHub.API.Controllers
@@ -25,6 +26,13 @@ namespace IotHub.API.Controllers
         {
             var createdUser = await userService.CreateUserAsync(user);
             return Created("", createdUser);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetAllAsync()
+        {
+            var users = await userService.GetAllAsync();
+            return Ok(users);
         }
     }
 }

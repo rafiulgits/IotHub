@@ -7,12 +7,8 @@ namespace IotHub.API.Configuration
     {
         public static void AddAutoMapper(this IServiceCollection services)
         {
-            var mappingConfiguration = new AutoMapper.MapperConfiguration(config =>
-            {
-                config.AddProfile(new MapperProfile());
-            });
-            AutoMapper.IMapper mapper = mappingConfiguration.CreateMapper();
-           
+            var mapperBuilder = new MapperBuilder();
+            AutoMapper.IMapper mapper = mapperBuilder.CreateMapper();
             services.AddSingleton(mapper);
         }
     }
