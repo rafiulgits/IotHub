@@ -35,6 +35,12 @@ namespace IotHub.Services.Profile
             return await profileRepository.DeleteAsync(id);
         }
 
+        public async Task<IEnumerable<ProfileDto>> GetAllAsync()
+        {
+            var profiles =  await profileRepository.GetAllAsync();
+            return mapper.Map<IEnumerable<ProfileDto>>(profiles);
+        }
+
         public async Task<ProfileDto> GetProfileAsync(string id)
         {
             var profile = await profileRepository.GetAsync(id);

@@ -2,6 +2,7 @@
 using IotHub.DataTransferObjects.User;
 using IotHub.Repositories.User;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace IotHub.Services.User
@@ -30,6 +31,12 @@ namespace IotHub.Services.User
         public async Task<bool> DeleteAsync(string id)
         {
             return await userRepository.DeleteAsync(id);
+        }
+
+        public async Task<IEnumerable<UserDto>> GetAllAsync()
+        {
+            var users = await userRepository.GetAllAsync();
+            return mapper.Map<IEnumerable<UserDto>>(users);
         }
 
         public async Task<UserDto> GetUserAsync(string id)
