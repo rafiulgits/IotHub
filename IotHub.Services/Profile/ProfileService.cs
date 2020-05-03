@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using IotHub.DataTransferObjects.Profile;
+using IotHub.DataTransferObjects.Subscription;
 using IotHub.Repositories.Profile;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,9 +17,10 @@ namespace IotHub.Services.Profile
             this.profileRepository = profileRepository;
         }
 
-        public Task<bool> AddSubscription(string profileId, ProfileSubscriptionDto profileSubscription)
+        public async Task<bool> AddSubscription(string profileId, ProfileSubscriptionDto profileSubscription)
         {
-            throw new System.NotImplementedException();
+            var subscription = mapper.Map<DomainModels.Subscription>(profileSubscription);
+            return await profileRepository.AddSubscription(profileId, subscription);
         }
 
         public async Task<ProfileDto> CreateProfileAsync(ProfileUpsertDto profile)
@@ -44,6 +47,15 @@ namespace IotHub.Services.Profile
             return mapper.Map<ProfileDto>(profile);
         }
 
+        public async Task<IEnumerable<SubscriptionDto>> GetSubscriptionsAsync(string id)
+        {
+            var queryable = profileRepository.GetAsQueryable();
+            var subscriptions = await Task.FromResult(queryable.Where(p => p.Id == id)
+                                                         .FirstOrDefault()?.Subscriptions
+                                                         .ToList());
+            return mapper.Map<IEnumerable<SubscriptionDto>>(subscriptions);
+        }
+
         public async Task<bool> HasSubscription(string profileId, string path)
         {
             var profile = await Task.FromResult(
@@ -57,9 +69,10 @@ namespace IotHub.Services.Profile
             
         }
 
-        public Task<bool> RemoveSubscription(string profileId, ProfileSubscriptionDto profileSubscription)
+        public async Task<bool> RemoveSubscription(string profileId, ProfileSubscriptionDto profileSubscription)
         {
-            throw new System.NotImplementedException();
+            var subscription = mapper.Map<DomainModels.Subscription>(profileSubscription);
+            return await profileRepository.RemoveSubscription(profileId, subscription);
         }
 
         public async Task<ProfileDto> UpdateProfileAsync(ProfileUpsertDto profile)

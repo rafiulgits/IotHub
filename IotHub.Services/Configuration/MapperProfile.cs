@@ -1,4 +1,5 @@
-﻿using IotHub.DataTransferObjects.User;
+﻿using IotHub.DataTransferObjects.Profile;
+using IotHub.DataTransferObjects.User;
 
 namespace IotHub.Services.Configuration
 {
@@ -7,6 +8,7 @@ namespace IotHub.Services.Configuration
         public MapperProfile()
         {
             CreateUserMaps();
+            CreateProfileMaps();
         }
 
         private void CreateUserMaps()
@@ -14,6 +16,14 @@ namespace IotHub.Services.Configuration
             CreateMap<DomainModels.User, UserDto>();
             CreateMap<DomainModels.User, UserLogsDto>();
             CreateMap<UserUpsertDto, DomainModels.User>();
+        }
+
+        private void CreateProfileMaps()
+        {
+            CreateMap<DomainModels.Profile, ProfileDto>();
+            CreateMap<ProfileUpsertDto, DomainModels.Profile>();
+            CreateMap<ProfileSubscriptionDto, DomainModels.Subscription>();
+            CreateMap<DomainModels.Subscription, ProfileSubscriptionDto>();
         }
     }
 }

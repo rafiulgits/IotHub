@@ -1,4 +1,6 @@
 ﻿using IotHub.DataTransferObjects.Profile;
+using IotHub.DataTransferObjects.Subscription;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace IotHub.Services.Profile
@@ -13,5 +15,6 @@ namespace IotHub.Services.Profile
         Task<bool> AddSubscription(string profileId, ProfileSubscriptionDto profileSubscription);
         Task<bool> RemoveSubscription(string profileId, ProfileSubscriptionDto profileSubscription);
         Task<bool> HasSubscription(string profileId, string path);
+        Task<IEnumerable<SubscriptionDto>> GetSubscriptionsAsync(string id);
     }
 }
