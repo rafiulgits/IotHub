@@ -1,6 +1,7 @@
 ﻿using IotHub.Common.Exceptions;
 using IotHub.DB.Mongo;
 using MongoDB.Driver;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -36,6 +37,12 @@ namespace IotHub.Repositories.Profile
             var filter = Builders<DomainModels.Profile>.Filter.Eq(p => p.Id, id);
             var result = await collection.DeleteOneAsync(filter);
             return result.IsAcknowledged && result.DeletedCount > 0;
+        }
+
+        public async Task<IEnumerable> GetAllAsync()
+        {
+            var cursor = await collection.FindAsync(p => true);
+            return cursor.ToList();
         }
 
         public IQueryable<DomainModels.Profile> GetAsQueryable()

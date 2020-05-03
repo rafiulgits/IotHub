@@ -1,6 +1,7 @@
 ﻿using IotHub.DB.Mongo;
 using MongoDB.Driver;
 using System;
+using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -32,6 +33,12 @@ namespace IotHub.Repositories.User
         public Task<bool> DeleteAsync(string id)
         {
             throw new System.NotImplementedException();
+        }
+
+        public async Task<IEnumerable> GetAllAsync()
+        {
+            var cursor = await collection.FindAsync(p => true);
+            return cursor.ToList();
         }
 
         public IQueryable<DomainModels.User> GetAsQueryable()

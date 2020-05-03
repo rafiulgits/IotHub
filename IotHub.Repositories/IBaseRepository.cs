@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace IotHub.Repositories
@@ -9,6 +10,7 @@ namespace IotHub.Repositories
         Task<T> CreateAsync(T entity);
         Task<T> UpdateAsync(T entity);
         Task<bool> DeleteAsync(string id);
+        Task<IEnumerable> GetAllAsync();
         IQueryable<T> GetAsQueryable();
     }
 }
