@@ -1,5 +1,7 @@
 ﻿using IotHub.DB.Mongo;
 using MongoDB.Driver;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace IotHub.Repositories.User
@@ -12,8 +14,17 @@ namespace IotHub.Repositories.User
             collection = mongoDbContext.Database.GetCollection<DomainModels.User>("user");
         }
 
+        public async Task<bool> AddLog(string id, DateTime dateTime)
+        {
+            var filter = Builders<DomainModels.User>.Filter.Eq(u => u.Id, id);
+            var update = Builders<DomainModels.User>.Update.Push(u => u.Logs, dateTime);
+            var result = await collection.UpdateOneAsync(filter, update);
+            return result.IsAcknowledged && result.ModifiedCount > 0;
+        }
+
         public async Task<DomainModels.User> CreateAsync(DomainModels.User entity)
         {
+            entity.Logs = new System.Collections.Generic.List<DateTime>();
             await collection.InsertOneAsync(entity);
             return entity;
         }
@@ -21,6 +32,11 @@ namespace IotHub.Repositories.User
         public Task<bool> DeleteAsync(string id)
         {
             throw new System.NotImplementedException();
+        }
+
+        public IQueryable<DomainModels.User> GetAsQueryable()
+        {
+            return collection.AsQueryable();
         }
 
         public async Task<DomainModels.User> GetAsync(string id)
@@ -33,6 +49,22 @@ namespace IotHub.Repositories.User
         {
             var cursor = await collection.FindAsync(doc => doc.Name == name);
             return cursor.FirstOrDefault();
+        }
+
+        public async Task<bool> SetActiveStatus(string id, bool status)
+        {
+            var filter = Builders<DomainModels.User>.Filter.Eq(u => u.Id, id);
+            var update = Builders<DomainModels.User>.Update.Set(u => u.IsActive, status);
+            var result = await collection.UpdateOneAsync(filter, update);
+            return result.IsAcknowledged && result.ModifiedCount > 0;
+        }
+
+        public async Task<bool> SetConnectionStatus(string id, bool status)
+        {
+            var filter = Builders<DomainModels.User>.Filter.Eq(u => u.Id, id);
+            var update = Builders<DomainModels.User>.Update.Set(u => u.IsConnected, status);
+            var result = await collection.UpdateOneAsync(filter, update);
+            return result.IsAcknowledged && result.ModifiedCount > 0;
         }
 
         public Task<DomainModels.User> UpdateAsync(DomainModels.User entity)
