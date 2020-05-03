@@ -1,5 +1,7 @@
-﻿using IotHub.Repositories.User;
+﻿using IotHub.Repositories.Profile;
+using IotHub.Repositories.User;
 using IotHub.Services.Authentication;
+using IotHub.Services.Profile;
 using IotHub.Services.User;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,6 +14,9 @@ namespace IotHub.API.Configuration
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
+
+            services.AddScoped<IProfileRepository, ProfileRepository>();
+            services.AddScoped<IProfileService, ProfileService>();
         }
     }
 }
