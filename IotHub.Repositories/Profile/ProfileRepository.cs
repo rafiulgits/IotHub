@@ -1,6 +1,7 @@
-﻿using IotHub.DB.Mongo;
-using IotHub.DomainModels;
+﻿using IotHub.Common.Exceptions;
+using IotHub.DB.Mongo;
 using MongoDB.Driver;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,44 +15,84 @@ namespace IotHub.Repositories.Profile
         {
             collection = mongoDbContext.Database.GetCollection<DomainModels.Profile>("profile");    
         }
-        public Task<bool> AddSubscription(string id, Subscription subscription)
+        public async Task<bool> AddSubscription(string id, DomainModels.Subscription subscription)
         {
-            throw new System.NotImplementedException();
+            var filter = Builders<DomainModels.Profile>.Filter.Eq(p => p.Id, id);
+            var update = Builders<DomainModels.Profile>.Update.Push(p => p.Subscriptions, subscription);
+            var result = await collection.UpdateOneAsync(filter, update);
+            return result.IsAcknowledged && result.ModifiedCount > 0;
         }
 
-        public Task<DomainModels.Profile> CreateAsync(DomainModels.Profile entity)
+        public async Task<DomainModels.Profile> CreateAsync(DomainModels.Profile entity)
         {
-            throw new System.NotImplementedException();
+            entity.Subscriptions = new List<DomainModels.Subscription>();
+            // make sure that user is included with profile
+            await collection.InsertOneAsync(entity);
+            return entity;
         }
 
-        public Task<bool> DeleteAsync(string id)
+        public async Task<bool> DeleteAsync(string id)
         {
-            throw new System.NotImplementedException();
+            var filter = Builders<DomainModels.Profile>.Filter.Eq(p => p.Id, id);
+            var result = await collection.DeleteOneAsync(filter);
+            return result.IsAcknowledged && result.DeletedCount > 0;
         }
 
         public IQueryable<DomainModels.Profile> GetAsQueryable()
         {
-            throw new System.NotImplementedException();
+            return collection.AsQueryable();
         }
 
-        public Task<DomainModels.Profile> GetAsync(string id)
+        public async Task<DomainModels.Profile> GetAsync(string id)
         {
-            throw new System.NotImplementedException();
+            var cursor = await collection.FindAsync(p => p.Id == id);
+            var profile =  cursor.FirstOrDefault();
+            if(profile == null)
+            {
+                throw new NotFoundException("No profile found with this id");
+            }
+            return profile;
         }
 
-        public Task<DomainModels.Profile> GetByUserIdAsync(string userId)
+        public async Task<DomainModels.Profile> GetByUserIdAsync(string userId)
         {
-            throw new System.NotImplementedException();
+            var cursor = await collection.FindAsync(p => p.UserId == userId);
+            var profile = cursor.FirstOrDefault();
+            if (profile == null)
+            {
+                throw new NotFoundException("No profile found with this id");
+            }
+            return profile;
         }
 
-        public Task<bool> RemoveSubscription(string id, Subscription subscription)
+        public async Task<bool> RemoveSubscription(string id, DomainModels.Subscription subscription)
         {
-            throw new System.NotImplementedException();
+            var filter = Builders<DomainModels.Profile>.Filter.Eq(p => p.Id, id);
+            var update = Builders<DomainModels.Profile>.Update.PullFilter(p => p.Subscriptions,
+                                                                          s => s.Id == subscription.Id);
+            var result = await collection.UpdateOneAsync(filter, update);
+            return result.IsAcknowledged && result.ModifiedCount > 0;
         }
 
-        public Task<DomainModels.Profile> UpdateAsync(DomainModels.Profile entity)
+        public async Task<DomainModels.Profile> UpdateAsync(DomainModels.Profile entity)
         {
-            throw new System.NotImplementedException();
+            var filter = Builders<DomainModels.Profile>.Filter.Eq(p => p.Id, entity.Id);
+            var update = Builders<DomainModels.Profile>.Update.Set(p => p.DisplayName, entity.DisplayName)
+                                                              .Set(p => p.ProfileType, entity.ProfileType);
+            var result = await collection.UpdateOneAsync(filter, update);
+            if(!result.IsAcknowledged)
+            {
+                throw new InternalException($"Failed to update profile {entity.Id}");
+            }
+            if (result.MatchedCount == 0)
+            {
+                throw new NotFoundException("Profile is not available in database");
+            }
+            if(result.ModifiedCount == 0)
+            {
+                throw new InternalException($"Failed to update profile {entity.Id}");
+            }
+            return entity;
         }
     }
 }
