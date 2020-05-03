@@ -4,7 +4,7 @@ using IotHub.DataTransferObjects.User;
 
 namespace IotHub.DataTransferObjects.Profile
 {
-    public class ProfileDto : BaseDto
+    public class ProfileDto : BaseDtoWithLog
     {
         public string DisplayName { get; set; }
         public string UserId { get; set; }

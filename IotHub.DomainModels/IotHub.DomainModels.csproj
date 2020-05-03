@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\IotHub.Common\IotHub.Common.csproj" />
     <ProjectReference Include="..\IotHub.DB\IotHub.DB.csproj" />
   </ItemGroup>
 
