@@ -3,7 +3,7 @@ using MQTTnet.Server;
 
 namespace IotHub.Broker.Services
 {
-    public interface IMqttService
+    public interface IMqttConfigurationService
     {
         void ConfigureMqttServerOptions(AspNetMqttServerOptionsBuilder options);
         void ConfigureMqttServer(IMqttServer mqtt);
