@@ -1,5 +1,7 @@
-﻿using IotHub.Repositories.User;
+﻿using IotHub.Repositories.Profile;
+using IotHub.Repositories.User;
 using IotHub.Services.Authentication;
+using IotHub.Services.Profile;
 using IotHub.Services.User;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,6 +14,9 @@ namespace IotHub.Broker.Configurations
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<IUserService, UserService>();
             services.AddSingleton<IAuthenticationService, AuthenticationService>();
+
+            services.AddSingleton<IProfileRepository, ProfileRepository>();
+            services.AddSingleton<IProfileService, ProfileService>();
         }
     }
 }

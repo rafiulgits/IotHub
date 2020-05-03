@@ -1,4 +1,5 @@
-﻿using MQTTnet.AspNetCore;
+﻿using IotHub.Services.Profile;
+using MQTTnet.AspNetCore;
 using MQTTnet.Server;
 using System.Threading.Tasks;
 
@@ -6,7 +7,13 @@ namespace IotHub.Broker.Services.Subscription
 {
     public class MqttSubscriptionService : IMqttSubscriptionService, IMqttConfigurationService
     {
+        private readonly IProfileService profileService;
         private IMqttServer mqttServer;
+
+        public MqttSubscriptionService(IProfileService profileService)
+        {
+            this.profileService = profileService;
+        }
 
         public void ConfigureMqttServer(IMqttServer mqttServer)
         {
@@ -31,9 +38,17 @@ namespace IotHub.Broker.Services.Subscription
             throw new System.NotImplementedException();
         }
 
-        public Task InterceptSubscriptionAsync(MqttSubscriptionInterceptorContext context)
+        public async Task InterceptSubscriptionAsync(MqttSubscriptionInterceptorContext context)
         {
-            throw new System.NotImplementedException();
+            var hasSubscription = await profileService.HasSubscription(context.ClientId, context.TopicFilter.Topic);
+            if(hasSubscription)
+            {
+                context.AcceptSubscription = true;
+            }
+            else
+            {
+                context.AcceptSubscription = false;
+            }
         }
 
         public Task InterceptUnsubscriptionAsync(MqttUnsubscriptionInterceptorContext context)

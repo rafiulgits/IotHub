@@ -1,4 +1,5 @@
 ﻿using IotHub.Services.Authentication;
+using IotHub.Services.User;
 using MQTTnet.AspNetCore;
 using MQTTnet.Server;
 using System.Threading.Tasks;
@@ -8,11 +9,13 @@ namespace IotHub.Broker.Services.Connection
     public class MqttConnectionService : IMqttConnectionService
     {
         private readonly IAuthenticationService authenticationService;
+        private readonly IUserService userService;
         private IMqttServer mqttServer;
 
-        public MqttConnectionService(IAuthenticationService authenticationService)
+        public MqttConnectionService(IAuthenticationService authenticationService, IUserService userService)
         {
             this.authenticationService = authenticationService;
+            this.userService = userService;
         }
 
         public void ConfigureMqttServer(IMqttServer mqttServer)
@@ -27,14 +30,15 @@ namespace IotHub.Broker.Services.Connection
             options.WithConnectionValidator(this);
         }
 
-        public Task HandleClientConnectedAsync(MqttServerClientConnectedEventArgs eventArgs)
+        public async Task HandleClientConnectedAsync(MqttServerClientConnectedEventArgs eventArgs)
         {
-            throw new System.NotImplementedException();
+            await userService.SetConnected(eventArgs.ClientId);
+            await userService.AddLog(eventArgs.ClientId);
         }
 
-        public Task HandleClientDisconnectedAsync(MqttServerClientDisconnectedEventArgs eventArgs)
+        public async Task HandleClientDisconnectedAsync(MqttServerClientDisconnectedEventArgs eventArgs)
         {
-            throw new System.NotImplementedException();
+            await userService.SetDisconnected(eventArgs.ClientId);
         }
 
         public async Task ValidateConnectionAsync(MqttConnectionValidatorContext context)
