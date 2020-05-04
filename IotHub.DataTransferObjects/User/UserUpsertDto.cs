@@ -12,7 +12,7 @@ namespace IotHub.DataTransferObjects.User
         [MinLength(6)]
         public string Password { get; set; }
         [Required]
-        public UserType UserType { get; set; }
+        public UserType Type { get; set; }
         public bool IsActive { get; set; }
     }
 }

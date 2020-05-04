@@ -11,6 +11,6 @@ namespace IotHub.DataTransferObjects.Profile
         [Required]
         public string UserId { get; set; }
         [Required]
-        public ProfileType ProfileType { get; set; }
+        public ProfileType Type { get; set; }
     }
 }

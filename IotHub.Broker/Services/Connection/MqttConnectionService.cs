@@ -1,4 +1,5 @@
-﻿using IotHub.Services.Authentication;
+﻿using IotHub.Common.Enums;
+using IotHub.Services.Authentication;
 using IotHub.Services.User;
 using MQTTnet.AspNetCore;
 using MQTTnet.Server;
@@ -44,7 +45,7 @@ namespace IotHub.Broker.Services.Connection
         public async Task ValidateConnectionAsync(MqttConnectionValidatorContext context)
         {
             var user = await authenticationService.Authenticate(context.Username, context.Password);
-            if(user != null)
+            if(user != null && user.Type != UserType.Other)
             {
                 context.ReasonCode = MQTTnet.Protocol.MqttConnectReasonCode.Success;
                 return;

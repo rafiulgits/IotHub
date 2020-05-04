@@ -10,6 +10,6 @@ namespace IotHub.DomainModels
         public string UserId { get; set; }
         public User User { get; set; }
         public List<Subscription> Subscriptions { get; set; }
-        public ProfileType ProfileType { get; set; }
+        public ProfileType Type { get; set; }
     }
 }

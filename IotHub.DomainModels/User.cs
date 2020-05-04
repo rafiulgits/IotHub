@@ -9,7 +9,7 @@ namespace IotHub.DomainModels
     {
         public string Name { get; set; }
         public string Password { get; set; }
-        public UserType UserType { get; set; }
+        public UserType Type { get; set; }
         public bool IsActive { get; set; } = true;
         public bool IsConnected { get; set; } = false;
         public DateTime LastConnected { get; set; } = DateTime.MinValue;
