@@ -1,4 +1,5 @@
-﻿using IotHub.DataTransferObjects.Base;
+﻿using IotHub.Common.Enums;
+using IotHub.DataTransferObjects.Base;
 using System.ComponentModel.DataAnnotations;
 
 namespace IotHub.DataTransferObjects.User
@@ -10,6 +11,8 @@ namespace IotHub.DataTransferObjects.User
         [Required]
         [MinLength(6)]
         public string Password { get; set; }
+        [Required]
+        public UserType UserType { get; set; }
         public bool IsActive { get; set; }
     }
 }

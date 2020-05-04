@@ -2,8 +2,7 @@
 {
     public enum ProfileType
     {
-        Admin = 1,
-        Agent,
+        Agent = 1,
         Device,
         People
     }
