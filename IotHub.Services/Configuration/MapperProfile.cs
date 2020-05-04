@@ -1,4 +1,5 @@
 ﻿using IotHub.DataTransferObjects.Profile;
+using IotHub.DataTransferObjects.Subscription;
 using IotHub.DataTransferObjects.User;
 
 namespace IotHub.Services.Configuration
@@ -23,7 +24,7 @@ namespace IotHub.Services.Configuration
             CreateMap<DomainModels.Profile, ProfileDto>();
             CreateMap<ProfileUpsertDto, DomainModels.Profile>();
             CreateMap<ProfileSubscriptionDto, DomainModels.Subscription>();
-            CreateMap<DomainModels.Subscription, ProfileSubscriptionDto>();
+            CreateMap<DomainModels.Subscription, SubscriptionDto>();
         }
     }
 }

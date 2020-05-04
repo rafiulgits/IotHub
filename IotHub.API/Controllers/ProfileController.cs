@@ -59,7 +59,7 @@ namespace IotHub.API.Controllers
             return BadRequest();
         }
 
-        [HttpPatch("{id}/subscription")]
+        [HttpPatch("{id}/subscriptions")]
         public async Task<ActionResult> AddSubscription([FromRoute]string id, [FromBody] ProfileSubscriptionDto profileSubscription)
         {
             var isAdded = await profileService.AddSubscription(id, profileSubscription);
@@ -70,7 +70,7 @@ namespace IotHub.API.Controllers
             return BadRequest();
         }
 
-        [HttpDelete("{id}/subscription")]
+        [HttpDelete("{id}/subscriptions")]
         public async Task<ActionResult> RemoveSubscription([FromRoute]string id, [FromBody] ProfileSubscriptionDto profileSubscription)
         {
             var isRemoved = await profileService.RemoveSubscription(id, profileSubscription);
@@ -81,7 +81,7 @@ namespace IotHub.API.Controllers
             return BadRequest();
         }
 
-        [HttpGet("{id}/subscription")]
+        [HttpGet("{id}/subscriptions")]
         public async Task<ActionResult<IEnumerable<ProfileSubscriptionDto>>> GetSubscriptions([FromRoute]string id)
         {
             var subscriptions = await profileService.GetSubscriptionsAsync(id);

@@ -27,7 +27,6 @@ namespace IotHub.Repositories.Profile
         public async Task<DomainModels.Profile> CreateAsync(DomainModels.Profile entity)
         {
             entity.Subscriptions = new List<DomainModels.Subscription>();
-            // make sure that user is included with profile
             await collection.InsertOneAsync(entity);
             return entity;
         }
@@ -85,7 +84,7 @@ namespace IotHub.Repositories.Profile
         {
             var filter = Builders<DomainModels.Profile>.Filter.Eq(p => p.Id, entity.Id);
             var update = Builders<DomainModels.Profile>.Update.Set(p => p.DisplayName, entity.DisplayName)
-                                                              .Set(p => p.ProfileType, entity.ProfileType);
+                                                              .Set(p => p.Type, entity.Type);
             var result = await collection.UpdateOneAsync(filter, update);
             if(!result.IsAcknowledged)
             {

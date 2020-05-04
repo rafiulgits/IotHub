@@ -57,8 +57,8 @@ namespace IotHub.Services.Profile
         {
             var queryable = profileRepository.GetAsQueryable();
             var subscriptions = await Task.FromResult(queryable.Where(p => p.Id == id)
-                                                         .FirstOrDefault()?.Subscriptions
-                                                         .ToList());
+                                                               .FirstOrDefault()?.Subscriptions
+                                                               .ToList());
             return mapper.Map<IEnumerable<SubscriptionDto>>(subscriptions);
         }
 

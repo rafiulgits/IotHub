@@ -1,4 +1,5 @@
-﻿using IotHub.DB.Mongo;
+﻿using IotHub.Common.Exceptions;
+using IotHub.DB.Mongo;
 using MongoDB.Driver;
 using System;
 using System.Collections;
@@ -49,13 +50,23 @@ namespace IotHub.Repositories.User
         public async Task<DomainModels.User> GetAsync(string id)
         {
             var cursor = await collection.FindAsync(doc => doc.Id == id);
-            return cursor.FirstOrDefault();
+            var user = cursor.FirstOrDefault();
+            if(user == null)
+            {
+                throw new NotFoundException($"No user exists with ID {id}");
+            }
+            return user;
         }
 
         public async Task<DomainModels.User> GetByNameAsync(string name)
         {
             var cursor = await collection.FindAsync(doc => doc.Name == name);
-            return cursor.FirstOrDefault();
+            var user = cursor.FirstOrDefault();
+            if (user == null)
+            {
+                throw new NotFoundException($"No user exists with name {name}");
+            }
+            return user;
         }
 
         public async Task<bool> SetActiveStatus(string id, bool status)
