@@ -62,12 +62,12 @@ namespace IotHub.Services.Profile
             return mapper.Map<IEnumerable<SubscriptionDto>>(subscriptions);
         }
 
-        public async Task<bool> HasSubscription(string profileId, string path)
+        public async Task<bool> HasSubscription(string userId, string path)
         {
             var profile = await Task.FromResult(
                 profileRepository
                     .GetAsQueryable()
-                    .Where(p => p.Id == profileId)
+                    .Where(p => p.UserId == userId)
                     .FirstOrDefault()?.Subscriptions
                     .Where(s => s.Path == path)
                     .FirstOrDefault());

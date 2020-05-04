@@ -45,12 +45,25 @@ namespace IotHub.Broker.Services.Connection
         public async Task ValidateConnectionAsync(MqttConnectionValidatorContext context)
         {
             var user = await authenticationService.Authenticate(context.Username, context.Password);
-            if(user != null && user.Type != UserType.Other)
+            if(user == null)
             {
-                context.ReasonCode = MQTTnet.Protocol.MqttConnectReasonCode.Success;
-                return;
+                context.ReasonCode = MQTTnet.Protocol.MqttConnectReasonCode.BadUserNameOrPassword;
             }
-            context.ReasonCode = MQTTnet.Protocol.MqttConnectReasonCode.BadUserNameOrPassword;
+            else
+            {
+                if(user.Id != context.ClientId)
+                {
+                    context.ReasonCode = MQTTnet.Protocol.MqttConnectReasonCode.ClientIdentifierNotValid;
+                }
+                else if(user.Type == UserType.Other)
+                {
+                    context.ReasonCode = MQTTnet.Protocol.MqttConnectReasonCode.NotAuthorized;
+                }
+                else
+                {
+                    context.ReasonCode = MQTTnet.Protocol.MqttConnectReasonCode.Success;
+                }
+            }
         }
     }
 }
