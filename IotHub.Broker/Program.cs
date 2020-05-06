@@ -18,7 +18,7 @@ namespace IotHub.Broker
                     webBuilder.UseKestrel(option =>
                     {
                         option.ListenAnyIP(1883, listenter => listenter.UseMqtt());
-                        option.ListenAnyIP(4000); // default HTTP Port
+                        option.ListenAnyIP(1884); // default HTTP Port
                     });
                     webBuilder.UseStartup<Startup>();
                 });
