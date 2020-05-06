@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -7,6 +7,11 @@
   <ItemGroup>
     <ProjectReference Include="..\IotHub.Repositories\IotHub.Repositories.csproj" />
     <ProjectReference Include="..\IotHub.Services\IotHub.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MQTTnet" Version="3.0.9" />
+    <PackageReference Include="MQTTnet.Extensions.ManagedClient" Version="3.0.9" />
   </ItemGroup>
 
 </Project>
