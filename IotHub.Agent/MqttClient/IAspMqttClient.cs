@@ -7,7 +7,7 @@ namespace IotHub.Agent.MqttClient
 {
     public interface IAspMqttClient : IMqttClientConnectedHandler,
                                       IMqttClientDisconnectedHandler,
-                                      IMqttApplicationMessageReceivedHandler                                    
+                                      IMqttApplicationMessageReceivedHandler                              
     {
         Task StartClientAsync();
         Task StopClientAsync();

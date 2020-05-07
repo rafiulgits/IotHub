@@ -64,14 +64,20 @@ namespace IotHub.Services.Profile
 
         public async Task<bool> HasSubscription(string userId, string path)
         {
-            var profile = await Task.FromResult(
-                profileRepository
-                    .GetAsQueryable()
-                    .Where(p => p.UserId == userId)
-                    .FirstOrDefault()?.Subscriptions
-                    .Where(s => s.Path == path)
-                    .FirstOrDefault());
-            return profile != null;
+            bool hasPermission = false;
+            var profile = await profileRepository.GetByUserIdAsync(userId);
+            if(profile != null)
+            {
+                if(profile.Type == Common.Enums.ProfileType.Agent)
+                {
+                    hasPermission = true;
+                }
+                else
+                {
+                    hasPermission = profile.Subscriptions.Any(sub => sub.Path == path);
+                }
+            }
+            return hasPermission;
             
         }
 

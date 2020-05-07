@@ -18,9 +18,9 @@ namespace IotHub.Broker.Services.Publishing
             options.WithApplicationMessageInterceptor(this);
         }
 
-        public Task InterceptApplicationMessagePublishAsync(MqttApplicationMessageInterceptorContext context)
+        public async Task InterceptApplicationMessagePublishAsync(MqttApplicationMessageInterceptorContext context)
         {
-            throw new System.NotImplementedException();
+            context.AcceptPublish = true;
         }
 
         public Task InterceptClientMessageQueueEnqueueAsync(MqttClientMessageQueueInterceptorContext context)

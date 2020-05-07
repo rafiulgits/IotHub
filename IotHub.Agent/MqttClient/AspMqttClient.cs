@@ -20,19 +20,21 @@ namespace IotHub.Agent.MqttClient
             mqttClient.ApplicationMessageReceivedHandler = this;
         }
 
-        public Task HandleApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs eventArgs)
+        public async Task HandleApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs eventArgs)
         {
-            throw new System.NotImplementedException();
+            System.Console.WriteLine($"{eventArgs.ApplicationMessage.Topic}");
         }
 
-        public Task HandleConnectedAsync(MqttClientConnectedEventArgs eventArgs)
+        public async Task HandleConnectedAsync(MqttClientConnectedEventArgs eventArgs)
         {
-            throw new System.NotImplementedException();
+            System.Console.WriteLine("connected");
+            await mqttClient.SubscribeAsync("#");
         }
 
-        public Task HandleDisconnectedAsync(MqttClientDisconnectedEventArgs eventArgs)
+        public async Task HandleDisconnectedAsync(MqttClientDisconnectedEventArgs eventArgs)
         {
-            throw new System.NotImplementedException();
+            System.Console.WriteLine($"disconnected: {eventArgs.ClientWasConnected}");
+            System.Console.WriteLine(eventArgs.Exception.Message);
         }
 
         public async Task StartClientAsync()
