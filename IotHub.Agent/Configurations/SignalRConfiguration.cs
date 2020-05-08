@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using IotHub.Agent.Hubs;
+using Microsoft.AspNetCore.Builder;
 
 namespace IotHub.Agent.Configurations
 {
@@ -8,7 +9,7 @@ namespace IotHub.Agent.Configurations
         {
             app.UseEndpoints(endpoints =>
             {
-             
+                endpoints.MapHub<BrokerHub>("/agenthub");
             });
         }
     }

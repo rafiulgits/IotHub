@@ -13,9 +13,9 @@ namespace IotHub.Agent.Services
     {
         private readonly IManagedMqttClient mqttClient;
         private readonly IManagedMqttClientOptions options;
-        private readonly IHubContext<ChatHub, IBrokerEvent> hubContext;
+        private readonly IHubContext<BrokerHub, IBrokerEvent> hubContext;
 
-        public MqttClientService(IManagedMqttClientOptions options, IHubContext<ChatHub, IBrokerEvent> hubContext)
+        public MqttClientService(IManagedMqttClientOptions options, IHubContext<BrokerHub, IBrokerEvent> hubContext)
         {
             this.hubContext = hubContext;
             this.options = options;
@@ -30,19 +30,22 @@ namespace IotHub.Agent.Services
             mqttClient.ApplicationMessageReceivedHandler = this;
         }
 
-        public Task HandleApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs eventArgs)
+        public async Task HandleApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs eventArgs)
         {
-            throw new System.NotImplementedException();
+            var payload = System.Text.Encoding.UTF8.GetString(eventArgs.ApplicationMessage.Payload);
+            await hubContext.Clients.All.Broadcast(eventArgs.ApplicationMessage.Topic, payload);
         }
 
         public async Task HandleConnectedAsync(MqttClientConnectedEventArgs eventArgs)
         {
             System.Console.WriteLine("Connected");
+            await hubContext.Clients.All.AgentConnectionStatus(true);
         }
 
         public async Task HandleDisconnectedAsync(MqttClientDisconnectedEventArgs eventArgs)
         {
             System.Console.WriteLine("Disconnected: " + eventArgs.Exception.Message);
+            await hubContext.Clients.All.AgentConnectionStatus(false);
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
