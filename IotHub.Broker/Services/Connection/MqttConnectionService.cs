@@ -35,11 +35,13 @@ namespace IotHub.Broker.Services.Connection
         {
             await userService.SetConnected(eventArgs.ClientId);
             await userService.AddLog(eventArgs.ClientId);
+            await mqttServer.PublishAsync("$SYS/user/connected", eventArgs.ClientId);
         }
 
         public async Task HandleClientDisconnectedAsync(MqttServerClientDisconnectedEventArgs eventArgs)
         {
             await userService.SetDisconnected(eventArgs.ClientId);
+            await mqttServer.PublishAsync("$SYS/user/disconnected", eventArgs.ClientId);
         }
 
         public async Task ValidateConnectionAsync(MqttConnectionValidatorContext context)
