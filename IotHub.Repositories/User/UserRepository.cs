@@ -20,6 +20,7 @@ namespace IotHub.Repositories.User
         {
             var filter = Builders<DomainModels.User>.Filter.Eq(u => u.Id, id);
             var update = Builders<DomainModels.User>.Update.Push(u => u.Logs, dateTime);
+            // TODO: update LastConnected
             var result = await collection.UpdateOneAsync(filter, update);
             return result.IsAcknowledged && result.ModifiedCount > 0;
         }
