@@ -1,5 +1,5 @@
 <div>
-	<center><img align="center" src="images/logo.svg" /></center>
+	<p align="center"><img src="images/logo.svg" /></p>
    	<h2 align="center">A cloud based IoT solution</h2>
 </div>
 
@@ -52,9 +52,9 @@
 
 
 <div>
-    <center>
-        <img align="center" src="images/broker_architecture.svg" />
-    </center>
+    <p align="center">
+        <img src="images/broker_architecture.svg" />
+    </p>
     <br/>
     <center><b>Broker Architecture</b></center>
 </div>
