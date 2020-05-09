@@ -25,6 +25,7 @@ namespace IotHub.API
             services.AddServicesAndRepositories();
             services.AddSwaggerService();
             services.AddAutoMapper();
+            services.AddConfiuredCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,6 +39,8 @@ namespace IotHub.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseConfiguredCors();
 
             app.UseAuthorization();
 
