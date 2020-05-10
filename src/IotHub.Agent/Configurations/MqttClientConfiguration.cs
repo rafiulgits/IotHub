@@ -1,5 +1,6 @@
 ﻿using IotHub.Agent.Options;
 using IotHub.Agent.Services;
+using IotHub.Common.Values;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MQTTnet.Client.Options;
@@ -22,6 +23,8 @@ namespace IotHub.Agent.Configurations
                     .WithTcpServer("localhost", 1883)
                     .Build());
             });
+
+            services.AddTransient<BrokerCommandTopics>();
         }
 
         private static IServiceCollection AddConfiguredMqttClientService(this IServiceCollection services,

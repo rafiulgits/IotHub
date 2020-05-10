@@ -1,4 +1,5 @@
 ﻿using IotHub.Common.Enums;
+using IotHub.Common.Values;
 using IotHub.Services.Authentication;
 using IotHub.Services.User;
 using MQTTnet.AspNetCore;
@@ -11,12 +12,14 @@ namespace IotHub.Broker.Services.Connection
     {
         private readonly IAuthenticationService authenticationService;
         private readonly IUserService userService;
+        private readonly BrokerEventTopics EventTopics;
         private IMqttServer mqttServer;
 
-        public MqttConnectionService(IAuthenticationService authenticationService, IUserService userService)
+        public MqttConnectionService(IAuthenticationService authenticationService, IUserService userService, BrokerEventTopics eventTopics)
         {
             this.authenticationService = authenticationService;
             this.userService = userService;
+            EventTopics = eventTopics;
         }
 
         public void ConfigureMqttServer(IMqttServer mqttServer)
@@ -35,13 +38,13 @@ namespace IotHub.Broker.Services.Connection
         {
             await userService.SetConnected(eventArgs.ClientId);
             await userService.AddLog(eventArgs.ClientId);
-            await mqttServer.PublishAsync("$SYS/users/connected", eventArgs.ClientId);
+            await mqttServer.PublishAsync(EventTopics.ClientConnected, eventArgs.ClientId);
         }
 
         public async Task HandleClientDisconnectedAsync(MqttServerClientDisconnectedEventArgs eventArgs)
         {
             await userService.SetDisconnected(eventArgs.ClientId);
-            await mqttServer.PublishAsync("$SYS/users/disconnected", eventArgs.ClientId);
+            await mqttServer.PublishAsync(EventTopics.ClientDisconnected, eventArgs.ClientId);
         }
 
         public async Task ValidateConnectionAsync(MqttConnectionValidatorContext context)
