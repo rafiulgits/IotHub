@@ -1,4 +1,5 @@
-﻿using MQTTnet.AspNetCore;
+﻿using IotHub.Common.Values;
+using MQTTnet.AspNetCore;
 using MQTTnet.Server;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +9,12 @@ namespace IotHub.Broker.Services.Publishing
     public class MqttPublishingService : IMqttPublishingService, IMqttConfigurationService
     {
         private IMqttServer mqttServer;
+        private readonly BrokerCommandTopics CommandTopics;
+
+        public MqttPublishingService(BrokerCommandTopics brokerCommandTopics)
+        {
+            CommandTopics = brokerCommandTopics;
+        }
 
         public void ConfigureMqttServer(IMqttServer mqttServer)
         {
@@ -21,7 +28,7 @@ namespace IotHub.Broker.Services.Publishing
 
         public async Task InterceptApplicationMessagePublishAsync(MqttApplicationMessageInterceptorContext context)
         {
-            if(context.ApplicationMessage.Topic == "$SYS/users/disconnected/command")
+            if(context.ApplicationMessage.Topic == CommandTopics.DisconnectClient)
             {
                 var requestDisconectClientId = System.Text.Encoding.UTF8.GetString(context.ApplicationMessage.Payload);
                 var clients = await mqttServer.GetClientStatusAsync();
@@ -32,6 +39,7 @@ namespace IotHub.Broker.Services.Publishing
                 }
                 
                 context.AcceptPublish = false;
+                return;
             }
             context.AcceptPublish = true;
         }
