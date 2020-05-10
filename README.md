@@ -31,7 +31,7 @@
 
 * **IotHub.DB**
 
-  A .NET classlib project, to provide all database context and settings. Solution is `MongoDB` as primary database. 
+  A .NET classlib project, to provide all database context and settings. Solution is using `MongoDB` as primary database. 
 
 * **IotHub.DomianModels**
 

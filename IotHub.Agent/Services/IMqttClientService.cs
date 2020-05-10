@@ -2,6 +2,7 @@
 using MQTTnet.Client.Connecting;
 using MQTTnet.Client.Disconnecting;
 using MQTTnet.Client.Receiving;
+using System.Threading.Tasks;
 
 namespace IotHub.Agent.Services
 {
@@ -10,5 +11,6 @@ namespace IotHub.Agent.Services
                                           IMqttClientDisconnectedHandler,
                                           IMqttApplicationMessageReceivedHandler
     {
+        Task PublishAsync(string topic, string payload);
     }
 }

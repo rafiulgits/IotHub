@@ -38,6 +38,12 @@ namespace IotHub.Agent.Configurations
             {
                 return serviceProvider.GetService<MqttClientService>();
             });
+            services.AddTransient<MqttClientServiceProvider>(serviceProvider =>
+            {
+                var mqttClientService = serviceProvider.GetService<MqttClientService>();
+                var mqttClientServiceProvider = new MqttClientServiceProvider(mqttClientService);
+                return mqttClientServiceProvider;
+            });
             return services;
         }
     }
