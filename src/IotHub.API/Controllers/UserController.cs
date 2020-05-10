@@ -34,5 +34,12 @@ namespace IotHub.API.Controllers
             var users = await userService.GetAllAsync();
             return Ok(users);
         }
+
+        [HttpGet("connected")]
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetConnectedUsersAsync()
+        {
+            var users = await userService.GetConnectedUsersAsync();
+            return Ok(users);
+        }
     }
 }

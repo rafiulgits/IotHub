@@ -58,5 +58,15 @@ namespace IotHub.Agent.Services
         {
             await mqttClient.StopAsync();
         }
+
+        public async Task PublishAsync(string topic, string payload)
+        {
+            var applicationMessage = new MqttApplicationMessageBuilder().WithTopic(topic)
+                                                                        .WithPayload(payload)
+                                                                        .Build();
+            var manegedApplicationMessage = new ManagedMqttApplicationMessageBuilder().WithApplicationMessage(applicationMessage)
+                                                                                      .Build();
+            await mqttClient.PublishAsync(manegedApplicationMessage);
+        }
     }
 }
