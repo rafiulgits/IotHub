@@ -1,4 +1,5 @@
-﻿using IotHub.Repositories.Profile;
+﻿using IotHub.Common.Values;
+using IotHub.Repositories.Profile;
 using IotHub.Repositories.User;
 using IotHub.Services.Authentication;
 using IotHub.Services.Profile;
@@ -17,6 +18,9 @@ namespace IotHub.Broker.Configurations
 
             services.AddSingleton<IProfileRepository, ProfileRepository>();
             services.AddSingleton<IProfileService, ProfileService>();
+
+            services.AddSingleton<BrokerEventTopics>();
+            services.AddSingleton<BrokerCommandTopics>();
         }
     }
 }
