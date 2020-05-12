@@ -1,4 +1,5 @@
 ﻿using MQTTnet.Server;
+using System.Threading.Tasks;
 
 namespace IotHub.Broker.Services.Publishing
 {
@@ -6,5 +7,6 @@ namespace IotHub.Broker.Services.Publishing
                                               IMqttServerClientMessageQueueInterceptor,
                                               IMqttConfigurationService
     {
+        Task ExecuteSystemCommandAsync(MqttApplicationMessageInterceptorContext context);
     }
 }
