@@ -40,6 +40,11 @@ namespace IotHub.Broker.Services.Subscription
 
         public async Task InterceptSubscriptionAsync(MqttSubscriptionInterceptorContext context)
         {
+            if(context.TopicFilter.Topic.StartsWith("$SYS", System.StringComparison.OrdinalIgnoreCase))
+            {
+                context.AcceptSubscription = false;
+                return;
+            }
             var hasSubscription = await profileService.HasSubscription(context.ClientId, context.TopicFilter.Topic);
             if(hasSubscription)
             {

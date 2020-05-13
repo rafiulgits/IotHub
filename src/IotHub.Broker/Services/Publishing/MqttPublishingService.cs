@@ -1,4 +1,5 @@
-﻿using IotHub.Common.Values;
+﻿using IotHub.Broker.Services.Internal;
+using IotHub.Common.Values;
 using MQTTnet.AspNetCore;
 using MQTTnet.Server;
 using System.Linq;
@@ -9,16 +10,20 @@ namespace IotHub.Broker.Services.Publishing
     public class MqttPublishingService : IMqttPublishingService
     {
         private IMqttServer mqttServer;
-        private readonly BrokerCommandTopics CommandTopics;
+        private IMqttInternalService internalService;
+        private readonly BrokerCommandTopics brokerCommandTopics;
+        private readonly BrokerEventTopics brokerEventTopics;
 
-        public MqttPublishingService(BrokerCommandTopics brokerCommandTopics)
+        public MqttPublishingService(BrokerCommandTopics brokerCommandTopics, BrokerEventTopics brokerEventTopics)
         {
-            CommandTopics = brokerCommandTopics;
+            this.brokerCommandTopics = brokerCommandTopics;
+            this.brokerEventTopics = brokerEventTopics;
         }
 
         public void ConfigureMqttServer(IMqttServer mqttServer)
         {
             this.mqttServer = mqttServer;
+            this.internalService = new MqttInternalService(mqttServer, brokerCommandTopics, brokerEventTopics);
         }
 
         public void ConfigureMqttServerOptions(AspNetMqttServerOptionsBuilder options)
@@ -30,37 +35,21 @@ namespace IotHub.Broker.Services.Publishing
         {
             if(IsSystemTopic(context.ApplicationMessage.Topic))
             {
-                await ExecuteSystemCommandAsync(context);
+                await internalService.ExecuteSystemCommandAsync(context);
+                context.AcceptPublish = false;
                 return;
             }
             context.AcceptPublish = true;
         }
 
-
         private bool IsSystemTopic(string topic)
         {
-            return topic.IndexOf("$SYS") == 0;
+            return topic.StartsWith("$SYS");
         }
 
         public Task InterceptClientMessageQueueEnqueueAsync(MqttClientMessageQueueInterceptorContext context)
         {
             throw new System.NotImplementedException();
-        }
-
-        public async Task ExecuteSystemCommandAsync(MqttApplicationMessageInterceptorContext context)
-        {
-            // TODO: make another service to handle commands and execute associated task
-            if(context.ApplicationMessage.Topic == CommandTopics.DisconnectClient)
-            {
-                var requestDisconectClientId = System.Text.Encoding.UTF8.GetString(context.ApplicationMessage.Payload);
-                var clients = await mqttServer.GetClientStatusAsync();
-                var clientStatus = clients.Where(c => c.ClientId == requestDisconectClientId).FirstOrDefault();
-                if (clientStatus != null)
-                {
-                    await clientStatus.DisconnectAsync();
-                }
-            }
-            context.AcceptPublish = false;
         }
     }
 }

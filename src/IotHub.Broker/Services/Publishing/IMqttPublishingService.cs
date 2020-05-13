@@ -7,6 +7,5 @@ namespace IotHub.Broker.Services.Publishing
                                               IMqttServerClientMessageQueueInterceptor,
                                               IMqttConfigurationService
     {
-        Task ExecuteSystemCommandAsync(MqttApplicationMessageInterceptorContext context);
     }
 }
