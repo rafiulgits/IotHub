@@ -33,6 +33,7 @@ namespace IotHub.Agent.Services
         public async Task HandleApplicationMessageReceivedAsync(MqttApplicationMessageReceivedEventArgs eventArgs)
         {
             var payload = System.Text.Encoding.UTF8.GetString(eventArgs.ApplicationMessage.Payload);
+            System.Console.WriteLine(payload);
             await hubContext.Clients.All.Broadcast(eventArgs.ApplicationMessage.Topic, payload);
         }
 

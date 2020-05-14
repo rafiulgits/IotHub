@@ -35,9 +35,16 @@ namespace IotHub.Broker.Services.Publishing
         {
             if(IsSystemTopic(context.ApplicationMessage.Topic))
             {
-                await internalService.ExecuteSystemCommandAsync(context);
-                context.AcceptPublish = false;
-                return;
+                if(IsBrokerItself(context.ClientId))
+                {
+                    context.AcceptPublish = true;
+                }
+                else
+                {
+                    await internalService.ExecuteSystemCommandAsync(context);
+                    context.AcceptPublish = false;
+                    return;
+                }
             }
             context.AcceptPublish = true;
         }
@@ -45,6 +52,11 @@ namespace IotHub.Broker.Services.Publishing
         private bool IsSystemTopic(string topic)
         {
             return topic.StartsWith("$SYS");
+        }
+
+        private bool IsBrokerItself(string clientId)
+        {
+            return string.IsNullOrEmpty(clientId);
         }
 
         public Task InterceptClientMessageQueueEnqueueAsync(MqttClientMessageQueueInterceptorContext context)

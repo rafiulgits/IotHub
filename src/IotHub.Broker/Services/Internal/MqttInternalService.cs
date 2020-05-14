@@ -37,7 +37,7 @@ namespace IotHub.Broker.Services.Internal
         public async Task DisconnectClientAsync(string clientId)
         {
             var clientStatus = await GetClientStatusAsync(clientId);
-            if(clientStatus != null)
+            if (clientStatus != null)
             {
                 await clientStatus.DisconnectAsync();
             }
@@ -45,33 +45,33 @@ namespace IotHub.Broker.Services.Internal
 
         public async Task ExecuteSystemCommandAsync(MqttApplicationMessageInterceptorContext context)
         {
-            if(context.ApplicationMessage.Topic == commandTopics.GetConnectedClients)
+            if (context.ApplicationMessage.Topic == commandTopics.GetConnectedClients)
             {
                 await ServeConnectedClientsAsync();
             }
-            else if(context.ApplicationMessage.Topic == commandTopics.GetDisconnectedClients)
+            else if (context.ApplicationMessage.Topic == commandTopics.GetDisconnectedClients)
             {
                 await ServeDisconnectedClientsAsync();
             }
-            else if(context.ApplicationMessage.Topic == commandTopics.GetConnectedClientsCount)
+            else if (context.ApplicationMessage.Topic == commandTopics.GetConnectedClientsCount)
             {
                 await ServeConnectedClientsCountAsync();
             }
-            else if(context.ApplicationMessage.Topic == commandTopics.GetDisconnectedClientsCount)
+            else if (context.ApplicationMessage.Topic == commandTopics.GetDisconnectedClientsCount)
             {
                 await ServeDisconnectedClientsCountAsync();
             }
-            else if(context.ApplicationMessage.Topic == commandTopics.PatchDisconnectClient)
+            else if (context.ApplicationMessage.Topic == commandTopics.PatchDisconnectClient)
             {
                 string clientId = GetClientIdFromPayload(context.ApplicationMessage);
                 await DisconnectClientAsync(clientId);
             }
-            else if(context.ApplicationMessage.Topic == commandTopics.GetClientIP)
+            else if (context.ApplicationMessage.Topic == commandTopics.GetClientIP)
             {
                 string clientId = GetClientIdFromPayload(context.ApplicationMessage);
                 await ServeClientIPAsync(clientId);
             }
-            else if(context.ApplicationMessage.Topic == commandTopics.GetClientConnectedTime)
+            else if (context.ApplicationMessage.Topic == commandTopics.GetClientConnectedTime)
             {
                 string clientId = GetClientIdFromPayload(context.ApplicationMessage);
                 await ServeClientConnectedTimeAsync(clientId);
@@ -85,24 +85,32 @@ namespace IotHub.Broker.Services.Internal
 
         public async Task ServeClientIPAsync(string clientId)
         {
-            var clientStatus = await GetClientStatusAsync(clientId);
-            // TODO: make publish
+            var serializedData = Utf8Json.JsonSerializer.Serialize(new { IP = "NO IP" });
+            var message = new MqttApplicationMessageBuilder().WithTopic(eventTopics.ClientIP(clientId))
+                                                             .WithPayload(serializedData)
+                                                             .Build();
+            await mqttServer.PublishAsync(message);
         }
 
         public async Task ServeConnectedClientsAsync()
         {
             var clientsStatus = await mqttServer.GetClientStatusAsync();
             var connectedClientsId = clientsStatus.Select(cs => cs.ClientId);
+            var serializedClientsId = Utf8Json.JsonSerializer.Serialize(new { IDList = connectedClientsId });
             var message = new MqttApplicationMessageBuilder().WithTopic(eventTopics.ConnectedClients)
-                                                             .WithPayload("")
+                                                             .WithPayload(serializedClientsId)
                                                              .Build();
-            // TODO: Object list to JSON/bytes
             await mqttServer.PublishAsync(message);
         }
 
-        public Task ServeConnectedClientsCountAsync()
+        public async Task ServeConnectedClientsCountAsync()
         {
-            throw new System.NotImplementedException();
+            var clientsStatus = await mqttServer.GetClientStatusAsync();
+            var serializedClientsCount = Utf8Json.JsonSerializer.Serialize(new { Counts = clientsStatus.Count });
+            var message = new MqttApplicationMessageBuilder().WithTopic(eventTopics.ConnectedClientsCount)
+                                                             .WithPayload(serializedClientsCount)
+                                                             .Build();
+            await mqttServer.PublishAsync(message);
         }
 
         public Task ServeDisconnectedClientsAsync()

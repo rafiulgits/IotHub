@@ -2,6 +2,7 @@
 using IotHub.Common.Values;
 using IotHub.Services.Authentication;
 using IotHub.Services.User;
+using MQTTnet;
 using MQTTnet.AspNetCore;
 using MQTTnet.Server;
 using System.Threading.Tasks;

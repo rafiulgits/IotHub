@@ -15,9 +15,9 @@ namespace IotHub.Agent.Hubs
             CommandTopics = commandTopics;
         }
 
-        public async Task MqttClientDisconnectCommand(string clientId)
+        public async Task RequestMqttBroker(string topic, string payload)
         {
-            await mqttClientService.PublishAsync(CommandTopics.DisconnectClient, clientId);
+            await mqttClientService.PublishAsync(topic, payload);
         }
     }
 }

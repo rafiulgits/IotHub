@@ -11,6 +11,6 @@ namespace IotHub.Broker.Services.Internal
         Task ServeDisconnectedClientsCountAsync();
         Task ServeClientIPAsync(string clientId);
         Task ServeClientConnectedTimeAsync(string clientId);
-        Task ExecuteSystemCommandAsync(MqttApplicationMessageInterceptorContext context)
+        Task ExecuteSystemCommandAsync(MqttApplicationMessageInterceptorContext context);
     }
 }

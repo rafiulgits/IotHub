@@ -12,7 +12,14 @@
         public string ConnectedClientsCount { get; } = $"{ClientBase}/connected/count";
         public string DisconnectedClientsCount { get; } = $"{ClientBase}/disconnected/count";
         public string SubscriptionsCount { get; } = $"{Base}/subscriptions/count";
-        public string ClientIP { get; } = $"{ClientBase}/[clientId]/ip";
-        public string ClientConnectedTime { get; } = $"{ClientBase}/[clientId]/connectedtime";
+        public string ClientIP(string clientId)
+        {
+            return $"{ClientBase}/{clientId}/ip";
+        }
+
+        public string ClientConnectedTime(string clientId)
+        {
+            return $"{ClientBase}/{clientId}/connectedtime";
+        }
     }
 }
