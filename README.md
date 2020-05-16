@@ -71,3 +71,23 @@
     <br/>
   	<h6 align="center">Broker Architecture</h6>
 </div>
+
+
+
+***
+
+### How to use (development)
+
+* Clone the project `git clone https://github.com/rafiulgits/IotHub`
+* Make sure .NET core 3.1(min) is installed
+* Go to `src` folder and build the solution `dotnet build`
+* Start the development server of `src/IotHub.API` by `dotnet watch run` 
+* Create some users including agent and admin types
+* Put agent credentials in `src/IotHub.Agent/appSettings`
+* Start the development server of `src/IotHub.Broker`  by `dotnet watch run`
+* Start the development server of `src/IotHub.Agent` by `dotnet watch run`
+
+Development environment is ready to use!
+
+
+
