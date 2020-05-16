@@ -1,11 +1,13 @@
 ﻿using IotHub.DataTransferObjects.Profile;
 using IotHub.Services.Profile;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace IotHub.API.Controllers
 {
+    [Authorize]
     [Route("api/profiles")]
     public class ProfileController : IotHubBaseController
     {

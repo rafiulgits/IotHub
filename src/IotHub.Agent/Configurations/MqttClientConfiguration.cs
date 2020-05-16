@@ -1,6 +1,8 @@
 ﻿using IotHub.Agent.Options;
 using IotHub.Agent.Services;
+using IotHub.Agent.Settings;
 using IotHub.Common.Values;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MQTTnet.Client.Options;
@@ -11,16 +13,20 @@ namespace IotHub.Agent.Configurations
 {
     public static class MqttClientConfiguration
     {
-        public static void AddHostedMqttClient(this IServiceCollection services)
+        public static void AddHostedMqttClient(this IServiceCollection services, IConfiguration configuration)
         {
+            var agentSettings = new AgentMqttClientSettings();
+            var brokerSettings = new MqttBrokerSettings();
+            configuration.GetSection(nameof(AgentMqttClientSettings)).Bind(agentSettings);
+            configuration.GetSection(nameof(MqttBrokerSettings)).Bind(brokerSettings);
             services.AddConfiguredMqttClientService(optionBuilder =>
             {
                 optionBuilder
                 .WithAutoReconnectDelay(TimeSpan.FromSeconds(5))
                 .WithClientOptions(new MqttClientOptionsBuilder()
-                    .WithClientId("5eb41b93e48d4d2d10151f16")
-                    .WithCredentials("agent", "12345678")
-                    .WithTcpServer("localhost", 1883)
+                    .WithClientId(agentSettings.Id)
+                    .WithCredentials(agentSettings.UserName, agentSettings.Password)
+                    .WithTcpServer(brokerSettings.Host, brokerSettings.Port)
                     .Build());
             });
 

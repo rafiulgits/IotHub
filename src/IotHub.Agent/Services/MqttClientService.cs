@@ -38,13 +38,11 @@ namespace IotHub.Agent.Services
 
         public async Task HandleConnectedAsync(MqttClientConnectedEventArgs eventArgs)
         {
-            System.Console.WriteLine("Connected");
             await hubContext.Clients.All.AgentConnectionStatus(true);
         }
 
         public async Task HandleDisconnectedAsync(MqttClientDisconnectedEventArgs eventArgs)
         {
-            System.Console.WriteLine("Disconnected: " + eventArgs.Exception.Message);
             await hubContext.Clients.All.AgentConnectionStatus(false);
         }
 
