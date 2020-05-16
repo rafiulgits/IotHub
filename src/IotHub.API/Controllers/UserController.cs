@@ -31,7 +31,8 @@ namespace IotHub.API.Controllers
             var createdUser = await userService.CreateUserAsync(user);
             return Created("", createdUser);
         }
-
+        
+        [Authorize(PolicyName.AdminOrAgent)]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDto>>> GetAllAsync()
         {
