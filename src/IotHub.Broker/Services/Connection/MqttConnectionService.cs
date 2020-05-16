@@ -2,6 +2,7 @@
 using IotHub.Common.Values;
 using IotHub.Services.Authentication;
 using IotHub.Services.User;
+using MQTTnet;
 using MQTTnet.AspNetCore;
 using MQTTnet.Server;
 using System.Threading.Tasks;
@@ -38,13 +39,13 @@ namespace IotHub.Broker.Services.Connection
         {
             await userService.SetConnected(eventArgs.ClientId);
             await userService.AddLog(eventArgs.ClientId);
-            await mqttServer.PublishAsync(EventTopics.ClientConnected, eventArgs.ClientId);
+            await mqttServer.PublishAsync(EventTopics.NewClientConnected, eventArgs.ClientId);
         }
 
         public async Task HandleClientDisconnectedAsync(MqttServerClientDisconnectedEventArgs eventArgs)
         {
             await userService.SetDisconnected(eventArgs.ClientId);
-            await mqttServer.PublishAsync(EventTopics.ClientDisconnected, eventArgs.ClientId);
+            await mqttServer.PublishAsync(EventTopics.NewClientDisconnected, eventArgs.ClientId);
         }
 
         public async Task ValidateConnectionAsync(MqttConnectionValidatorContext context)
