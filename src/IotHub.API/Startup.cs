@@ -28,6 +28,7 @@ namespace IotHub.API
             services.AddAutoMapper();
             services.AddConfiuredCors();
             services.AddJwtAuthentication();
+            services.AddIotHubAuthorization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

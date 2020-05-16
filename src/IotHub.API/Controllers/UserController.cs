@@ -1,11 +1,14 @@
-﻿using IotHub.DataTransferObjects.User;
+﻿using IotHub.API.Util;
+using IotHub.DataTransferObjects.User;
 using IotHub.Services.User;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace IotHub.API.Controllers
 {
+    [Authorize]
     [Route("/api/users")]
     public class UserController : IotHubBaseController
     {
@@ -21,6 +24,7 @@ namespace IotHub.API.Controllers
             return await userService.GetUserAsync(id);
         }
 
+        [Authorize(PolicyName.Admin)]
         [HttpPost]
         public async Task<ActionResult<UserDto>> CreateAsync([FromBody] UserUpsertDto user)
         {
