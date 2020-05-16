@@ -91,3 +91,9 @@ Development environment is ready to use!
 
 
 
+### Docs
+
+* **[IotHub.Agent Doc](./docs/agent_doc.md)**
+* **[IotHub.Broker Doc](./docs/broker_doc.md)**
+* **[IotHub.API Doc](./docs/api_doc.md)**
+
