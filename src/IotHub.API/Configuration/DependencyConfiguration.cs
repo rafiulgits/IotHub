@@ -1,4 +1,5 @@
-﻿using IotHub.Repositories.Profile;
+﻿using IotHub.API.Services;
+using IotHub.Repositories.Profile;
 using IotHub.Repositories.User;
 using IotHub.Services.Authentication;
 using IotHub.Services.Profile;
@@ -17,6 +18,8 @@ namespace IotHub.API.Configuration
 
             services.AddScoped<IProfileRepository, ProfileRepository>();
             services.AddScoped<IProfileService, ProfileService>();
+
+            services.AddScoped<IInternalService, InternalService>();
         }
     }
 }
