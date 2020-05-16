@@ -1,4 +1,6 @@
-﻿using IotHub.DataTransferObjects.User;
+﻿using IotHub.API.Extentions;
+using IotHub.API.Services;
+using IotHub.DataTransferObjects.User;
 using IotHub.Services.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -9,16 +11,35 @@ namespace IotHub.API.Controllers
     public class AuthenticationController : IotHubBaseController
     {
         private readonly IAuthenticationService authenticationService;
+        private readonly IInternalService internalService;
 
-        public AuthenticationController(IAuthenticationService authenticationService)
+        public AuthenticationController(IAuthenticationService authenticationService, IInternalService internalService)
         {
             this.authenticationService = authenticationService;
+            this.internalService = internalService;
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<UserDto>> Login([FromBody] UserLoginDto loginData)
+        public async Task<ActionResult<UserTokenDto>> Login([FromBody] UserLoginDto loginData)
         {
-            return await authenticationService.Authenticate(loginData.Name, loginData.Password);
+            var user = await authenticationService.Authenticate(loginData.Name, loginData.Password);
+            if(user == null)
+            {
+                return Unauthorized("Invalid credential");
+            }
+            var userToken = new UserTokenDto() { Bearer = user.GetJwtToken() };
+            return Ok(userToken);
+        }
+
+        [HttpPost("internal-login")]
+        public ActionResult<UserTokenDto> InternalLogin([FromBody] UserLoginDto loginData)
+        {
+            var userToken = internalService.InternalAuthentication(loginData);
+            if(userToken == null)
+            {
+                return Unauthorized();
+            }
+            return Ok(userToken);
         }
     }
 }

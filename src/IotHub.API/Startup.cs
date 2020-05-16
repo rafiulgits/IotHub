@@ -13,6 +13,7 @@ namespace IotHub.API
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            SettingsBinder.Bind(configuration);
         }
 
         public IConfiguration Configuration { get; }
@@ -26,6 +27,8 @@ namespace IotHub.API
             services.AddSwaggerService();
             services.AddAutoMapper();
             services.AddConfiuredCors();
+            services.AddJwtAuthentication();
+            services.AddIotHubAuthorization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,15 +40,11 @@ namespace IotHub.API
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseConfiguredCors();
-
             app.UseAuthorization();
-
             app.AddSwaggerMiddleware();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
