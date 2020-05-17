@@ -20,8 +20,10 @@ namespace IotHub.Agent
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHostedMqttClient(configuration);
-            services.AddConfiuredCors();
+            services.AddConfiuredCors(configuration);
             services.AddSignalR();
+            services.AddJwtAuthentication(configuration);
+            services.AddIotHubAuthorization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -33,7 +35,9 @@ namespace IotHub.Agent
             }
 
             app.UseRouting();
+            app.UseAuthentication();
             app.UseConfiguredCors();
+            app.UseAuthorization();
             app.UseConfiguredSignalR();
         }
     }

@@ -3,13 +3,13 @@ using IotHub.Common.Extensions;
 using IotHub.Common.Values;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace IotHub.API.Configuration
+namespace IotHub.Agent.Configurations
 {
     public static class AuthorizationConfiguration
     {
         public static void AddIotHubAuthorization(this IServiceCollection services)
         {
-            services.AddAuthorization(option => 
+            services.AddAuthorization(option =>
             {
                 option.AddPolicy(PolicyName.Admin, config =>
                 {
