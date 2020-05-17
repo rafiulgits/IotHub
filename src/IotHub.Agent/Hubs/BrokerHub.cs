@@ -1,10 +1,12 @@
 ﻿using IotHub.Agent.Services;
 using IotHub.Common.Values;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
 
 namespace IotHub.Agent.Hubs
 {
+    [Authorize]
     public class BrokerHub : Hub<IBrokerEvent>
     {
         private readonly IMqttClientService mqttClientService;
