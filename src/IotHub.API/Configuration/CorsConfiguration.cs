@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using IotHub.API.Settings;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace IotHub.API.Configuration
@@ -7,13 +8,13 @@ namespace IotHub.API.Configuration
     {
         public static void AddConfiuredCors(this IServiceCollection services)
         {
+            var corsSettings = SettingsProvider.CorsSettings;
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(builder =>
                 {
                     builder
-                    .WithOrigins("https://localhost:3000",
-                                 "http://localhost:3000")
+                    .WithOrigins(corsSettings.AllowedHosts)
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials();

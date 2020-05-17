@@ -1,6 +1,6 @@
-﻿using IotHub.API.Util;
-using IotHub.Common.Enums;
+﻿using IotHub.Common.Enums;
 using IotHub.Common.Extensions;
+using IotHub.Common.Values;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace IotHub.API.Configuration

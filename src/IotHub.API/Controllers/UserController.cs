@@ -1,4 +1,4 @@
-﻿using IotHub.API.Util;
+﻿using IotHub.Common.Values;
 using IotHub.DataTransferObjects.User;
 using IotHub.Services.User;
 using Microsoft.AspNetCore.Authorization;

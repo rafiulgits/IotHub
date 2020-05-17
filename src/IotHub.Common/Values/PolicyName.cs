@@ -1,4 +1,4 @@
-﻿namespace IotHub.API.Util
+﻿namespace IotHub.Common.Values
 {
     public class PolicyName
     {

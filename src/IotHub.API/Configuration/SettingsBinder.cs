@@ -11,6 +11,7 @@ namespace IotHub.API.Configuration
             this.configuration = configuration;
             BindJwtSettings();
             BindInternalAuthSettings();
+            BindCorsSettings();
         }
 
         public static void Bind(IConfiguration configuration)
@@ -30,6 +31,13 @@ namespace IotHub.API.Configuration
             var internalAuthSettings = new InternalAuthSettings();
             configuration.GetSection(nameof(InternalAuthSettings)).Bind(internalAuthSettings);
             SettingsProvider.InternalAuthSettings = internalAuthSettings;
+        }
+
+        private void BindCorsSettings()
+        {
+            var corsSettings = new CorsSettings();
+            configuration.GetSection(nameof(CorsSettings)).Bind(corsSettings);
+            SettingsProvider.CorsSettings = corsSettings;
         }
     }
 }
