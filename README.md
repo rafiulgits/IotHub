@@ -3,7 +3,7 @@
    	<h2 align="center">A cloud based IoT solution</h2>
 </div>
 
-
+IotHub provides an abstract solution of any IoT infrastructure including Broker system, API management, Authentication, Agent management system, so that it can be extended to any preferable IoT solution like  **home automation system, supply chain management**.
 
 
 
@@ -78,22 +78,45 @@
 
 ### How to use (development)
 
-* Clone the project `git clone https://github.com/rafiulgits/IotHub`
-* Make sure .NET core 3.1(min) is installed
-* Go to `src` folder and build the solution `dotnet build`
-* Start the development server of `src/IotHub.API` by `dotnet watch run` 
-* Create some users including agent and admin types
-* Put agent credentials in `src/IotHub.Agent/appSettings`
-* Start the development server of `src/IotHub.Broker`  by `dotnet watch run`
-* Start the development server of `src/IotHub.Agent` by `dotnet watch run`
+Very first clone the project using `git clone https://github.com/rafiulgits/IotHub.git` or download the project by clicking on download button.
+
+ 
+
+**Required Environments**
+
+* .NET Core 3.1 or letter
+* MongoDB
+
+
+
+**Execution**
+
+* Build the solution by `dotnet build`
+* Go to `src/IotHub.API` and from `appSettings.json` set your internal custom credential and use this credential create some new users (including agent one) and profiles
+* Run the `src/IotHub.Broker` development server by `dotnet watch run`
+* Go to `src/IotHub.Agent` , set agent credentials that you created earlier  and run the development server by `dotnet watch run`
+
+
 
 Development environment is ready to use!
 
+To testing with MQTT clients [MQTT fx](https://mqttfx.jensd.de/index.php/download) is a good solution. See [iothub-dashboard](https://github.com/rafiulgits/iothub-dashboard) a Reactive example dashboard that will help to find out how to use IotHub solution.
+
+***
 
 
-### Docs
 
-* **[IotHub.Agent Doc](./docs/agent_doc.md)**
-* **[IotHub.Broker Doc](./docs/broker_doc.md)**
-* **[IotHub.API Doc](./docs/api_doc.md)**
+## Full Documentations
+
+* ### [IotHub.Agent Doc](./docs/agent_doc.md)
+
+* ### [IotHub.Broker Doc](./docs/broker_doc.md)
+
+* ### [IotHub.API Doc](./docs/api_doc.md)
+
+***
+
+
+
+**No Copyright No License**
 

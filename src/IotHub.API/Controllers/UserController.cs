@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace IotHub.API.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = PolicyName.AdminOrAgent)]
     [Route("/api/users")]
     public class UserController : IotHubBaseController
     {
@@ -32,7 +32,6 @@ namespace IotHub.API.Controllers
             return Created("", createdUser);
         }
         
-        [Authorize(PolicyName.AdminOrAgent)]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDto>>> GetAllAsync()
         {
