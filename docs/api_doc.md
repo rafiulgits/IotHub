@@ -4,26 +4,456 @@ A .NET web API project to provide the API support of IotHub Solution. By default
 
 Open `/swagger` to view the **Swagger** interface.
 
+***
+
+**Backdoor Admin login**
+
+There is a backdoor in IotHub API to allowed admin to authenticate with custom credentials. These credentials are store in `appSettings.json` of IotHub API project
+
+```json
+"InternalAuthSettings": {
+    "IsActive" :  true,
+    "UserName": "admin",
+    "Password": "12345678"
+  },
+```
+
+There is an option to turned off internal authentication by changing the parameter `isActive` to `false`. Even admin can change this custom credential anytime. This credential has the admin level permission to access any resource in that solution.
+
+***
 
 
-**Authentication**
 
-* `POST /api/authentication/login`
+## Status Codes
 
-**Profile**
+| Status Code               | Reason                                                       |
+| ------------------------- | ------------------------------------------------------------ |
+| 200 OK                    | Successful `GET` ,`PUT` request                              |
+| 204 No Content            | Successful `DELETE`, `PATCH` request                         |
+| 201 Created               | Success `POST` request                                       |
+| 400 Bad Request           | Validation requirements or formation error.                  |
+| 401 Unauthorized          | When anonymous user want to access any authenticated endpoint |
+| 403 Forbidden             | User doesn't have the permission to access that endpoint     |
+| 404 Not Found             | If requested result not found by the system                  |
+| 405 Method Not Allowed    | If requested method doesn't support by the endpoint          |
+| 406 Not Acceptable        | If requested form (`Content-Type` and `Accept`) doesn't support by the system. See **Content Negotiation** |
+| 500 Internal Server Error | Whenever server is failed to execute or finish a task.       |
 
-* `GET /api/profiles/id`
-* `GET /api/profiles`
-* `POST /api/profiles`
-* `PUT /api/profiles/{id}`
-* `DELETE /api/profiles/{id}`
-* `PATCH /api/profiles/{id}/subscriptions`
-* `DELETE /api/profiles/{id}/subscriptions`
-* `GET /api/profiles/{id}/subscriptions`
 
-**User**
 
-* `GET /api/users`
-* `POST /api/users`
-* `GET /api/users/{id}`
-* `GET /api/users/connected`
+## Values
+
+### Types
+
+**User Types**
+
+* `Admin` = 1
+* `Agent` = 2
+* `Actuator` = 3       
+* `Sensor` = 4
+* `ActuatorAndSensor`  = 5
+* `Other` = 6
+
+
+
+**Profile Types**
+
+* `Agent` = 1
+
+* `Device` = 2
+
+* `People` = 3
+
+
+
+### Authorize Permissions
+
+* **Admin** required admin type user
+* **AgentOrAdmin** required admin or agent type user
+
+
+
+## Endpoints
+
+***
+
+
+
+### Authentication
+
+Any user (including anonymous) can access authentication endpoints
+
+
+
+####  `/api/authentication/login`
+
+#### POST
+
+**Request**
+
+```json
+{
+  "name": "string",
+  "password": "string"
+}
+```
+
+**Response**
+
+```json
+{
+  "bearer": "string"
+}
+```
+
+
+
+####  `/api/authentication/internal-login`
+
+#### POST
+
+**Request**
+
+```json
+{
+  "name": "string",
+  "password": "string"
+}
+```
+
+**Response**
+
+```json
+{
+  "bearer": "string"
+}
+```
+
+***
+
+
+
+### Profile
+
+Only authenticated users can access profile endpoints
+
+
+
+#### ` /api/profiles/{id}`
+
+#### GET
+
+****
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| id   | path       |             | Yes      | string |
+
+**Permission**: `Admin Or Agent`
+
+**Response**
+
+```json
+{
+  "displayName": "string",
+  "userId": "string",
+  "type": 1,
+  "createdDate": "2020-05-17T11:45:31.978Z",
+  "lastModifiedDate": "2020-05-17T11:45:31.978Z",
+  "id": "string"
+}
+```
+
+
+
+#### PUT
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| id   | path       |             | Yes      | string |
+
+**Permission:** `Admin`
+
+**Request**
+
+```json
+{
+  "displayName": "string",
+  "userId": "string",
+  "type": 1,
+  "id": "string"
+}
+```
+
+**Response**
+
+```json
+{
+  "displayName": "string",
+  "userId": "string",
+  "type": 1,
+  "createdDate": "2020-05-17T11:45:31.978Z",
+  "lastModifiedDate": "2020-05-17T11:45:31.978Z",
+  "id": "string"
+}
+```
+
+
+
+#### DELETE
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| id   | path       |             | Yes      | string |
+
+**Permission:** `Admin`
+
+**Response**
+
+> 204 No Content
+
+
+
+#### ` /api/profiles`
+
+#### GET
+
+**Permission:** `Admin or Agent`
+
+**Response**
+
+```json
+[
+  {
+    "displayName": "string",
+    "userId": "string",
+    "type": 1,
+    "createdDate": "2020-05-17T11:50:38.102Z",
+    "lastModifiedDate": "2020-05-17T11:50:38.102Z",
+    "id": "string"
+  }
+]
+```
+
+
+
+#### POST
+
+**Permission:** `Admin`
+
+##### Request
+
+```json
+{
+  "displayName": "string",
+  "userId": "string",
+  "type": 1
+}
+```
+
+##### Response
+
+```json
+{
+  "displayName": "string",
+  "userId": "string",
+  "type": 1,
+  "createdDate": "2020-05-17T11:51:07.857Z",
+  "lastModifiedDate": "2020-05-17T11:51:07.857Z",
+  "id": "string"
+}
+```
+
+
+
+
+
+#### `/api/profiles/{id}/subscriptions`
+
+#### PATCH
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| id   | path       |             | Yes      | string |
+
+**Permission:** `Admin`
+
+##### Request
+
+```json
+{
+  "profileId": "string",
+  "path": "string"
+}
+```
+
+##### Response
+
+> 204 No Content
+
+
+
+#### DELETE
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| id   | path       |             | Yes      | string |
+
+**Permission:** `Admin`
+
+##### Response
+
+> 204 No Content
+
+
+
+#### GET
+
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| id   | path       |             | Yes      | string |
+
+**Permission:** `Admin or Agent`
+
+##### Response
+
+```json
+[
+  {
+    "profileId": "string",
+    "path": "string"
+  }
+]
+```
+
+***
+
+
+
+### User
+
+Only authenticated users can access user endpoints
+
+
+
+#### ` /api/users/{id}`
+
+#### GET
+##### Parameters
+
+| Name | Located in | Description | Required | Schema |
+| ---- | ---------- | ----------- | -------- | ------ |
+| id   | path       |             | Yes      | string |
+
+**Permission:** `Admin or Agent`
+
+##### Response
+
+```json
+{
+  "name": "string",
+  "type": 1,
+  "isActive": true,
+  "isConnected": true,
+  "lastConnected": "2020-05-17T13:10:00.245Z",
+  "createdDate": "2020-05-17T13:10:00.245Z",
+  "lastModifiedDate": "2020-05-17T13:10:00.245Z",
+  "id": "string"
+}
+```
+
+
+
+#### ` /api/users`
+
+#### POST
+
+**Permission**: `Admin`
+
+**Request**
+
+```json
+{
+  "name": "string",
+  "password": "string",
+  "type": 1,
+  "isActive": true,
+}
+```
+
+##### Response
+
+```json
+{
+  "name": "string",
+  "type": 1,
+  "isActive": true,
+  "isConnected": true,
+  "lastConnected": "2020-05-17T13:11:42.274Z",
+  "createdDate": "2020-05-17T13:11:42.274Z",
+  "lastModifiedDate": "2020-05-17T13:11:42.274Z",
+  "id": "string"
+}
+```
+
+
+
+#### GET
+
+**Permission:** `Admin or Agent`
+
+##### Response
+
+```json
+[
+  {
+    "name": "string",
+    "type": 1,
+    "isActive": true,
+    "isConnected": true,
+    "lastConnected": "2020-05-17T13:12:47.765Z",
+    "createdDate": "2020-05-17T13:12:47.765Z",
+    "lastModifiedDate": "2020-05-17T13:12:47.765Z",
+    "id": "string"
+  }
+]
+```
+
+
+
+#### `/api/users/connected`
+
+#### **GET**
+
+**Permission:** `Admin or Agent`
+
+##### Response
+
+```json
+[
+  {
+    "name": "string",
+    "type": 1,
+    "isActive": true,
+    "isConnected": true,
+    "lastConnected": "2020-05-17T13:12:47.765Z",
+    "createdDate": "2020-05-17T13:12:47.765Z",
+    "lastModifiedDate": "2020-05-17T13:12:47.765Z",
+    "id": "string"
+  }
+]
+```
+
+
+
+****
+
