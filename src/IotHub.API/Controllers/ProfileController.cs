@@ -1,4 +1,5 @@
-﻿using IotHub.DataTransferObjects.Profile;
+﻿using IotHub.Common.Values;
+using IotHub.DataTransferObjects.Profile;
 using IotHub.Services.Profile;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace IotHub.API.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = PolicyName.AdminOrAgent)]
     [Route("api/profiles")]
     public class ProfileController : IotHubBaseController
     {
@@ -32,6 +33,7 @@ namespace IotHub.API.Controllers
             return Ok(profiles);
         }
 
+        [Authorize(Policy = PolicyName.Admin)]
         [HttpPost]
         public async Task<ActionResult<ProfileDto>> CreateAsync([FromBody] ProfileUpsertDto profile)
         {
@@ -39,6 +41,7 @@ namespace IotHub.API.Controllers
             return Created("", createdProfile);
         }
 
+        [Authorize(Policy = PolicyName.Admin)]
         [HttpPut("{id}")]
         public async Task<ActionResult<ProfileDto>> UpdateAsync([FromRoute]string id, [FromBody]ProfileUpsertDto profile)
         {
@@ -50,6 +53,7 @@ namespace IotHub.API.Controllers
             return Ok(updatedProfile);
         }
 
+        [Authorize(Policy = PolicyName.Admin)]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteAsync([FromRoute]string id)
         {
@@ -61,6 +65,7 @@ namespace IotHub.API.Controllers
             return BadRequest();
         }
 
+        [Authorize(Policy = PolicyName.Admin)]
         [HttpPatch("{id}/subscriptions")]
         public async Task<ActionResult> AddSubscription([FromRoute]string id, [FromBody] ProfileSubscriptionDto profileSubscription)
         {
@@ -72,6 +77,7 @@ namespace IotHub.API.Controllers
             return BadRequest();
         }
 
+        [Authorize(Policy = PolicyName.Admin)]
         [HttpDelete("{id}/subscriptions")]
         public async Task<ActionResult> RemoveSubscription([FromRoute]string id, [FromBody] ProfileSubscriptionDto profileSubscription)
         {

@@ -5,7 +5,14 @@ A .NET solution to host an MQTT Client as Agent and SignalR Hub. This project ma
 
 
 <p align="center"><img src="../images/broker_architecture.svg"/></p>
+
+
+
+
+
 ***
+
+
 
 ## How to Use
 
@@ -40,7 +47,7 @@ Here is an example how to connect Agent SignalR Hub using JavaScript. Hub connec
 import * as SignalR from "@aspnet/signalr";
 
 let hubConnection = new SignalR.HubConnectionBuilder()
-      .withUrl('https://localhost:4001/')
+      .withUrl(`https://localhost:4001/?access_token={bearer_token}`)
       .build();
 
 hubConnection
