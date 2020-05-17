@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IotHub.Agent.Hubs
 {
-    [Authorize]
+    [Authorize(Policy = PolicyName.AdminOrAgent)]
     public class BrokerHub : Hub<IBrokerEvent>
     {
         private readonly IMqttClientService mqttClientService;

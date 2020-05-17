@@ -2,7 +2,6 @@
 using IotHub.API.Services;
 using IotHub.DataTransferObjects.User;
 using IotHub.Services.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -41,14 +40,6 @@ namespace IotHub.API.Controllers
                 return Unauthorized();
             }
             return Ok(userToken);
-        }
-
-        [Authorize]
-        [HttpGet("validate")]
-        public ActionResult Validate()
-        {
-            System.Console.WriteLine("validate invoked");
-            return NoContent();
         }
     }
 }

@@ -23,6 +23,7 @@ namespace IotHub.Agent
             services.AddConfiuredCors(configuration);
             services.AddSignalR();
             services.AddJwtAuthentication(configuration);
+            services.AddIotHubAuthorization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
