@@ -10,6 +10,7 @@ namespace IotHub.Services.Configuration
         {
             CreateUserMaps();
             CreateProfileMaps();
+            CreateSubscriptionMaps();
         }
 
         private void CreateUserMaps()
@@ -23,8 +24,13 @@ namespace IotHub.Services.Configuration
         {
             CreateMap<DomainModels.Profile, ProfileDto>();
             CreateMap<ProfileUpsertDto, DomainModels.Profile>();
-            CreateMap<ProfileSubscriptionDto, DomainModels.Subscription>();
+            CreateMap<DomainModels.Profile, ProfileWithSubscriptionsDto>();
+        }
+
+        private void CreateSubscriptionMaps()
+        {
             CreateMap<DomainModels.Subscription, SubscriptionDto>();
+            CreateMap<SubscriptionUpsertDto, DomainModels.Subscription>();
         }
     }
 }

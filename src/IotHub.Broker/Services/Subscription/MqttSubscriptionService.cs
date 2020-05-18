@@ -40,15 +40,30 @@ namespace IotHub.Broker.Services.Subscription
 
         public async Task InterceptSubscriptionAsync(MqttSubscriptionInterceptorContext context)
         {
-            if(context.TopicFilter.Topic.StartsWith("$SYS", System.StringComparison.OrdinalIgnoreCase))
+            if (context.TopicFilter.Topic.StartsWith("$SYS", System.StringComparison.OrdinalIgnoreCase) || context.TopicFilter.Topic.StartsWith("#"))
             {
                 context.AcceptSubscription = false;
                 return;
             }
-            var hasSubscription = await profileService.HasSubscription(context.ClientId, context.TopicFilter.Topic);
-            if(hasSubscription)
+            var profile = await profileService.GetProfileWithSubscriptionByUserIdAsync(context.ClientId);
+            if (profile != null)
             {
-                context.AcceptSubscription = true;
+                if (profile.Type == Common.Enums.ProfileType.Agent)
+                {
+                    context.AcceptSubscription = true;
+                }
+                else
+                {
+                    foreach (var subscription in profile.Subscriptions)
+                    {
+                        if (MqttTopicFilterComparer.IsMatch(context.TopicFilter.Topic, subscription.Path))
+                        {
+                            context.AcceptSubscription = true;
+                            return;
+                        }
+                    }
+                    context.AcceptSubscription = false;
+                }
             }
             else
             {

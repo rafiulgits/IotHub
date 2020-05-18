@@ -17,7 +17,7 @@ namespace IotHub.Services.Profile
             this.profileRepository = profileRepository;
         }
 
-        public async Task<bool> AddSubscription(string profileId, ProfileSubscriptionDto profileSubscription)
+        public async Task<bool> AddSubscription(string profileId, SubscriptionUpsertDto profileSubscription)
         {
             var subscription = mapper.Map<DomainModels.Subscription>(profileSubscription);
             return await profileRepository.AddSubscription(profileId, subscription);
@@ -53,35 +53,26 @@ namespace IotHub.Services.Profile
             return mapper.Map<ProfileDto>(profile);
         }
 
-        public async Task<IEnumerable<SubscriptionDto>> GetSubscriptionsAsync(string id)
+        public async Task<ProfileWithSubscriptionsDto> GetProfileWithSubscriptionByUserIdAsync(string userId)
+        {
+            var profile = await profileRepository.GetByUserIdAsync(userId);
+            return mapper.Map<ProfileWithSubscriptionsDto>(profile);
+        }
+
+        public async Task<ProfileWithSubscriptionsDto> GetProfileWithSubscriptionsAsync(string id)
+        {
+            var profile = await profileRepository.GetAsync(id);
+            return mapper.Map<ProfileWithSubscriptionsDto>(profile);
+        }
+
+        public IEnumerable<SubscriptionDto> GetSubscriptions(string id)
         {
             var queryable = profileRepository.GetAsQueryable();
-            var subscriptions = await Task.FromResult(queryable.Where(p => p.Id == id)
-                                                               .FirstOrDefault()?.Subscriptions
-                                                               .ToList());
+            var subscriptions = queryable.Where(p => p.Id == id).FirstOrDefault()?.Subscriptions.ToList();
             return mapper.Map<IEnumerable<SubscriptionDto>>(subscriptions);
         }
 
-        public async Task<bool> HasSubscription(string userId, string path)
-        {
-            bool hasPermission = false;
-            var profile = await profileRepository.GetByUserIdAsync(userId);
-            if(profile != null)
-            {
-                if(profile.Type == Common.Enums.ProfileType.Agent)
-                {
-                    hasPermission = true;
-                }
-                else
-                {
-                    hasPermission = profile.Subscriptions.Any(sub => sub.Path == path);
-                }
-            }
-            return hasPermission;
-            
-        }
-
-        public async Task<bool> RemoveSubscription(string profileId, ProfileSubscriptionDto profileSubscription)
+        public async Task<bool> RemoveSubscription(string profileId, SubscriptionUpsertDto profileSubscription)
         {
             var subscription = mapper.Map<DomainModels.Subscription>(profileSubscription);
             return await profileRepository.RemoveSubscription(profileId, subscription);

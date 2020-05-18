@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace IotHub.DataTransferObjects.Profile
+namespace IotHub.DataTransferObjects.Subscription
 {
-    public class ProfileSubscriptionDto
+    public class SubscriptionUpsertDto
     {
         [Required]
         public string ProfileId { get; set; }
