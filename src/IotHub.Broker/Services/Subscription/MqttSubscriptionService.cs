@@ -40,12 +40,19 @@ namespace IotHub.Broker.Services.Subscription
 
         public async Task InterceptSubscriptionAsync(MqttSubscriptionInterceptorContext context)
         {
+            var profile = await profileService.GetProfileWithSubscriptionByUserIdAsync(context.ClientId);
             if (context.TopicFilter.Topic.StartsWith("$SYS", System.StringComparison.OrdinalIgnoreCase) || context.TopicFilter.Topic.StartsWith("#"))
             {
-                context.AcceptSubscription = false;
+                if(profile.Type == Common.Enums.ProfileType.Agent)
+                {
+                    context.AcceptSubscription = true;
+                }
+                else
+                {
+                    context.AcceptSubscription = false;
+                }
                 return;
             }
-            var profile = await profileService.GetProfileWithSubscriptionByUserIdAsync(context.ClientId);
             if (profile != null)
             {
                 if (profile.Type == Common.Enums.ProfileType.Agent)
@@ -71,9 +78,9 @@ namespace IotHub.Broker.Services.Subscription
             }
         }
 
-        public Task InterceptUnsubscriptionAsync(MqttUnsubscriptionInterceptorContext context)
+        public async Task InterceptUnsubscriptionAsync(MqttUnsubscriptionInterceptorContext context)
         {
-            throw new System.NotImplementedException();
+            context.AcceptUnsubscription = true;
         }
     }
 }
