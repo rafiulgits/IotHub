@@ -19,6 +19,7 @@ namespace IotHub.Services.User
 
         public async Task<bool> AddLog(string id)
         {
+            // TODO: last connected
             return await userRepository.AddLog(id, DateTime.Now);
         }
 

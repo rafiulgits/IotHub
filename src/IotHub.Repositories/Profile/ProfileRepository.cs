@@ -21,6 +21,10 @@ namespace IotHub.Repositories.Profile
             var filter = Builders<DomainModels.Profile>.Filter.Eq(p => p.Id, id);
             var update = Builders<DomainModels.Profile>.Update.Push(p => p.Subscriptions, subscription);
             var result = await collection.UpdateOneAsync(filter, update);
+            if (!result.IsAcknowledged && result.MatchedCount == 0)
+            {
+                throw new BadRequestException("No profile found to update");
+            }
             return result.IsAcknowledged && result.ModifiedCount > 0;
         }
 
@@ -35,7 +39,11 @@ namespace IotHub.Repositories.Profile
         {
             var filter = Builders<DomainModels.Profile>.Filter.Eq(p => p.Id, id);
             var result = await collection.DeleteOneAsync(filter);
-            return result.IsAcknowledged && result.DeletedCount > 0;
+            if(!result.IsAcknowledged)
+            {
+                throw new BadRequestException("No profile found with this id");
+            }
+            return result.DeletedCount > 0;
         }
 
         public async Task<IEnumerable> GetAllAsync()
@@ -92,7 +100,7 @@ namespace IotHub.Repositories.Profile
             }
             if (result.MatchedCount == 0)
             {
-                throw new NotFoundException("Profile is not available in database");
+                throw new BadRequestException("Profile is not available in database");
             }
             if(result.ModifiedCount == 0)
             {
