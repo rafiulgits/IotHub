@@ -41,7 +41,7 @@ namespace IotHub.Services.User
             return mapper.Map<IEnumerable<UserDto>>(users);
         }
 
-        public async Task<IEnumerable<UserDto>> GetConnectedUsersAsync()
+        public IEnumerable<UserDto> GetConnectedUsers()
         {
             var queryable = userRepository.GetAsQueryable();
             var users = queryable.Where(u => u.IsConnected);
