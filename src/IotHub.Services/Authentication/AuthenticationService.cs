@@ -17,16 +17,19 @@ namespace IotHub.Services.Authentication
 
         public async Task<UserDto> Authenticate(string username, string password)
         {
-            var user = await userRepository.GetByNameAsync(username);
-            if(user == null)
+            try
             {
-                throw new UnauthorizedException("No user found with this name");
+                var user = await userRepository.GetByNameAsync(username);
+                if (user.Password != password)
+                {
+                    throw new UnauthorizedException("Incorrect password");
+                }
+                return mapper.Map<UserDto>(user);
             }
-            if(user.Password != password)
+            catch(NotFoundException notFound)
             {
-                throw new UnauthorizedException("Incorrect password");
+                throw new UnauthorizedException(notFound.Message);
             }
-            return mapper.Map<UserDto>(user);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using IotHub.Services.Profile;
+﻿using IotHub.Common.Exceptions;
+using IotHub.Services.Profile;
 using MQTTnet.AspNetCore;
 using MQTTnet.Server;
 using System.Threading.Tasks;
@@ -40,22 +41,18 @@ namespace IotHub.Broker.Services.Subscription
 
         public async Task InterceptSubscriptionAsync(MqttSubscriptionInterceptorContext context)
         {
-            var profile = await profileService.GetProfileWithSubscriptionByUserIdAsync(context.ClientId);
-            if (context.TopicFilter.Topic.StartsWith("$SYS", System.StringComparison.OrdinalIgnoreCase) || context.TopicFilter.Topic.StartsWith("#"))
+            context.AcceptSubscription = false;
+            try
             {
-                if(profile.Type == Common.Enums.ProfileType.Agent)
+                var profile = await profileService.GetProfileWithSubscriptionByUserIdAsync(context.ClientId);
+                if (context.TopicFilter.Topic.StartsWith("$SYS", System.StringComparison.OrdinalIgnoreCase) || context.TopicFilter.Topic.StartsWith("#"))
                 {
-                    context.AcceptSubscription = true;
+                    if (profile.Type == Common.Enums.ProfileType.Agent)
+                    {
+                        context.AcceptSubscription = true;
+                    }
                 }
-                else
-                {
-                    context.AcceptSubscription = false;
-                }
-                return;
-            }
-            if (profile != null)
-            {
-                if (profile.Type == Common.Enums.ProfileType.Agent)
+                else if (profile.Type == Common.Enums.ProfileType.Agent)
                 {
                     context.AcceptSubscription = true;
                 }
@@ -66,21 +63,18 @@ namespace IotHub.Broker.Services.Subscription
                         if (MqttTopicFilterComparer.IsMatch(context.TopicFilter.Topic, subscription.Path))
                         {
                             context.AcceptSubscription = true;
-                            return;
                         }
                     }
-                    context.AcceptSubscription = false;
                 }
             }
-            else
+            catch(NotFoundException)
             {
-                context.AcceptSubscription = false;
             }
         }
 
-        public async Task InterceptUnsubscriptionAsync(MqttUnsubscriptionInterceptorContext context)
+        public Task InterceptUnsubscriptionAsync(MqttUnsubscriptionInterceptorContext context)
         {
-            context.AcceptUnsubscription = true;
+            return Task.FromResult(context.AcceptUnsubscription = true);
         }
     }
 }
