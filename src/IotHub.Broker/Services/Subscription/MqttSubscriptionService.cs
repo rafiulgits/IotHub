@@ -1,4 +1,5 @@
-﻿using IotHub.Services.Profile;
+﻿using IotHub.Common.Exceptions;
+using IotHub.Services.Profile;
 using MQTTnet.AspNetCore;
 using MQTTnet.Server;
 using System.Threading.Tasks;
@@ -40,25 +41,40 @@ namespace IotHub.Broker.Services.Subscription
 
         public async Task InterceptSubscriptionAsync(MqttSubscriptionInterceptorContext context)
         {
-            if(context.TopicFilter.Topic.StartsWith("$SYS", System.StringComparison.OrdinalIgnoreCase))
+            context.AcceptSubscription = false;
+            try
             {
-                context.AcceptSubscription = false;
-                return;
+                var profile = await profileService.GetProfileWithSubscriptionByUserIdAsync(context.ClientId);
+                if (context.TopicFilter.Topic.StartsWith("$SYS", System.StringComparison.OrdinalIgnoreCase) || context.TopicFilter.Topic.StartsWith("#"))
+                {
+                    if (profile.Type == Common.Enums.ProfileType.Agent)
+                    {
+                        context.AcceptSubscription = true;
+                    }
+                }
+                else if (profile.Type == Common.Enums.ProfileType.Agent)
+                {
+                    context.AcceptSubscription = true;
+                }
+                else
+                {
+                    foreach (var subscription in profile.Subscriptions)
+                    {
+                        if (MqttTopicFilterComparer.IsMatch(context.TopicFilter.Topic, subscription.Path))
+                        {
+                            context.AcceptSubscription = true;
+                        }
+                    }
+                }
             }
-            var hasSubscription = await profileService.HasSubscription(context.ClientId, context.TopicFilter.Topic);
-            if(hasSubscription)
+            catch(NotFoundException)
             {
-                context.AcceptSubscription = true;
-            }
-            else
-            {
-                context.AcceptSubscription = false;
             }
         }
 
         public Task InterceptUnsubscriptionAsync(MqttUnsubscriptionInterceptorContext context)
         {
-            throw new System.NotImplementedException();
+            return Task.FromResult(context.AcceptUnsubscription = true);
         }
     }
 }

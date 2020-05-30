@@ -38,7 +38,7 @@ namespace IotHub.API
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseIotHubExceptionHandler(env.IsDevelopment());
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthentication();

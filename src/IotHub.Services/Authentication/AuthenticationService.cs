@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using IotHub.Common.Exceptions;
 using IotHub.DataTransferObjects.User;
 using IotHub.Repositories.User;
 using System.Threading.Tasks;
@@ -16,12 +17,19 @@ namespace IotHub.Services.Authentication
 
         public async Task<UserDto> Authenticate(string username, string password)
         {
-            var user = await userRepository.GetByNameAsync(username);
-            if(user.Password != password)
+            try
             {
-                return null;
+                var user = await userRepository.GetByNameAsync(username);
+                if (user.Password != password)
+                {
+                    throw new UnauthorizedException("Incorrect password");
+                }
+                return mapper.Map<UserDto>(user);
             }
-            return mapper.Map<UserDto>(user);
+            catch(NotFoundException notFound)
+            {
+                throw new UnauthorizedException(notFound.Message);
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using IotHub.Common.Values;
 using IotHub.DataTransferObjects.Profile;
+using IotHub.DataTransferObjects.Subscription;
 using IotHub.Services.Profile;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -67,9 +68,9 @@ namespace IotHub.API.Controllers
 
         [Authorize(Policy = PolicyName.Admin)]
         [HttpPatch("{id}/subscriptions")]
-        public async Task<ActionResult> AddSubscription([FromRoute]string id, [FromBody] ProfileSubscriptionDto profileSubscription)
+        public async Task<ActionResult> AddSubscription([FromRoute]string id, [FromBody] SubscriptionUpsertDto subscription)
         {
-            var isAdded = await profileService.AddSubscription(id, profileSubscription);
+            var isAdded = await profileService.AddSubscription(id, subscription);
             if (isAdded)
             {
                 return NoContent();
@@ -79,9 +80,9 @@ namespace IotHub.API.Controllers
 
         [Authorize(Policy = PolicyName.Admin)]
         [HttpDelete("{id}/subscriptions")]
-        public async Task<ActionResult> RemoveSubscription([FromRoute]string id, [FromBody] ProfileSubscriptionDto profileSubscription)
+        public async Task<ActionResult> RemoveSubscription([FromRoute]string id, [FromBody] SubscriptionUpsertDto subscription)
         {
-            var isRemoved = await profileService.RemoveSubscription(id, profileSubscription);
+            var isRemoved = await profileService.RemoveSubscription(id, subscription);
             if (isRemoved)
             {
                 return NoContent();
@@ -90,9 +91,9 @@ namespace IotHub.API.Controllers
         }
 
         [HttpGet("{id}/subscriptions")]
-        public async Task<ActionResult<IEnumerable<ProfileSubscriptionDto>>> GetSubscriptions([FromRoute]string id)
+        public ActionResult<IEnumerable<SubscriptionDto>> GetSubscriptions([FromRoute]string id)
         {
-            var subscriptions = await profileService.GetSubscriptionsAsync(id);
+            var subscriptions = profileService.GetSubscriptions(id);
             return Ok(subscriptions);
         }
     }

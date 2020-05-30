@@ -16,6 +16,6 @@ namespace IotHub.Services.User
         Task<bool> SetConnected(string id);
         Task<bool> SetDisconnected(string id);
         Task<bool> AddLog(string id);
-        Task<IEnumerable<UserDto>> GetConnectedUsersAsync();
+        IEnumerable<UserDto> GetConnectedUsers();
     }
 }

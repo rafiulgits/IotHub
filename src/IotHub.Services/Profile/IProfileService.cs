@@ -9,13 +9,14 @@ namespace IotHub.Services.Profile
     {
         Task<ProfileDto> CreateProfileAsync(ProfileUpsertDto profile);
         Task<ProfileDto> GetProfileAsync(string id);
+        Task<ProfileWithSubscriptionsDto> GetProfileWithSubscriptionsAsync(string id);
+        Task<ProfileWithSubscriptionsDto> GetProfileWithSubscriptionByUserIdAsync(string userId);
         Task<IEnumerable<ProfileDto>> GetAllAsync();
         Task<ProfileDto> GetProfileByUserIdAsync(string userId);
         Task<ProfileDto> UpdateProfileAsync(ProfileUpsertDto profile);
         Task<bool> DeleteProfileAsync(string id);
-        Task<bool> AddSubscription(string profileId, ProfileSubscriptionDto profileSubscription);
-        Task<bool> RemoveSubscription(string profileId, ProfileSubscriptionDto profileSubscription);
-        Task<bool> HasSubscription(string profileId, string path);
-        Task<IEnumerable<SubscriptionDto>> GetSubscriptionsAsync(string id);
+        Task<bool> AddSubscription(string profileId, SubscriptionUpsertDto profileSubscription);
+        Task<bool> RemoveSubscription(string profileId, SubscriptionUpsertDto profileSubscription);
+        IEnumerable<SubscriptionDto> GetSubscriptions(string id);
     }
 }

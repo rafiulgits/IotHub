@@ -1,8 +1,8 @@
 ﻿using IotHub.Common.Enums;
+using IotHub.Common.Exceptions;
 using IotHub.Common.Values;
 using IotHub.Services.Authentication;
 using IotHub.Services.User;
-using MQTTnet;
 using MQTTnet.AspNetCore;
 using MQTTnet.Server;
 using System.Threading.Tasks;
@@ -50,18 +50,14 @@ namespace IotHub.Broker.Services.Connection
 
         public async Task ValidateConnectionAsync(MqttConnectionValidatorContext context)
         {
-            var user = await authenticationService.Authenticate(context.Username, context.Password);
-            if(user == null)
+            try
             {
-                context.ReasonCode = MQTTnet.Protocol.MqttConnectReasonCode.BadUserNameOrPassword;
-            }
-            else
-            {
-                if(user.Id != context.ClientId)
+                var user = await authenticationService.Authenticate(context.Username, context.Password);
+                if (user.Id != context.ClientId)
                 {
                     context.ReasonCode = MQTTnet.Protocol.MqttConnectReasonCode.ClientIdentifierNotValid;
                 }
-                else if(user.Type == UserType.Other)
+                else if (user.Type == UserType.Other)
                 {
                     context.ReasonCode = MQTTnet.Protocol.MqttConnectReasonCode.NotAuthorized;
                 }
@@ -69,6 +65,10 @@ namespace IotHub.Broker.Services.Connection
                 {
                     context.ReasonCode = MQTTnet.Protocol.MqttConnectReasonCode.Success;
                 }
+            }
+            catch(UnauthorizedException)
+            {
+                context.ReasonCode = MQTTnet.Protocol.MqttConnectReasonCode.BadUserNameOrPassword;
             }
         }
     }

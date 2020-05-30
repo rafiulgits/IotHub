@@ -19,6 +19,7 @@ namespace IotHub.Services.User
 
         public async Task<bool> AddLog(string id)
         {
+            // TODO: last connected
             return await userRepository.AddLog(id, DateTime.Now);
         }
 
@@ -40,7 +41,7 @@ namespace IotHub.Services.User
             return mapper.Map<IEnumerable<UserDto>>(users);
         }
 
-        public async Task<IEnumerable<UserDto>> GetConnectedUsersAsync()
+        public IEnumerable<UserDto> GetConnectedUsers()
         {
             var queryable = userRepository.GetAsQueryable();
             var users = queryable.Where(u => u.IsConnected);
