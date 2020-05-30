@@ -24,11 +24,15 @@ namespace IotHub.Broker.Configurations
             });
             services.AddMqttConnectionHandler();
             services.AddMqttWebSocketServerAdapter();
+            services.AddConnections();
         }
 
         public static void UseConfiguredMqttServer(this IApplicationBuilder app)
         {
-            app.UseMqttEndpoint("/mqtt");
+            app.UseEndpoints(endpoint =>
+            {
+                endpoint.MapMqtt("/mqtt");
+            });
             app.UseMqttServer(mqttServer =>
             {
                 app.ApplicationServices.GetRequiredService<MqttServerService>().ConfigureMqttServer(mqttServer);

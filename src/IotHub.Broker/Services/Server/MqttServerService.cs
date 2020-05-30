@@ -34,6 +34,7 @@ namespace IotHub.Broker.Services.Server
             mqttConnectionService.ConfigureMqttServerOptions(options);
             mqttSubscriptionService.ConfigureMqttServerOptions(options);
             mqttPublishingService.ConfigureMqttServerOptions(options);
+            options.WithoutDefaultEndpoint();
         }
     }
 }
