@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace IotHub.API
 {
@@ -18,6 +14,17 @@ namespace IotHub.API
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    var env = hostingContext.HostingEnvironment;
+                    var sharedFolder = Path.GetFullPath(Path.Combine(env.ContentRootPath, @"..\..\"));
+                    config.AddJsonFile(Path.Combine(sharedFolder, "sharedSettings.json"), optional: false)
+                          .AddJsonFile("sharedSettings.json", optional : true) //for production
+                          .AddJsonFile("appsettings.json", optional: true)
+                          .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+
+                    config.AddEnvironmentVariables();
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
