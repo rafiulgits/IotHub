@@ -1,0 +1,6 @@
+{
+  "JwtSettings": {
+    "Secret": "ik6Vy6BLJwT5hoOm455tE9aoMlyFh7bu",
+    "LifeTimeDays": 3
+  }
+}
