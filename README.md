@@ -118,5 +118,6 @@ To testing with MQTT clients [MQTT fx](https://mqttfx.jensd.de/index.php/downloa
 
 
 
-**No Copyright No License**
+## License
 
+This repository is licensed with the [MIT](./LICENSE) license.
