@@ -1,3 +1,14 @@
+
+<div class="page-header">
+    <a class="btn" href="./api_doc">API Doc</a>
+    <a class="btn" href="./broker_doc">Broker Doc</a>
+    <a class="btn" href="./agent_doc">Agent Doc</a>
+</div>
+
+
+
+
+
 # IotHub API
 
 A .NET web API project to provide the API support of IotHub Solution. By default this project is hosting on `HTTP 5000` and `HTTPS 5001`. 
@@ -108,7 +119,7 @@ Any user (including anonymous) can access authentication endpoints
 
 
 
-#### POST `/api/authentication/internal-login`
+#### POST  `/api/authentication/internal-login`
 
 **Request**
 
@@ -137,7 +148,7 @@ Only authenticated users can access profile endpoints
 
 
 
-#### GET ` /api/profiles/{id}`
+#### GET  `/api/profiles/{id}`
 
 ****
 
@@ -166,7 +177,7 @@ Only authenticated users can access profile endpoints
 
 
 
-#### PUT ` /api/profiles/{id}`
+#### PUT  `/api/profiles/{id}`
 ##### Parameters
 
 | Name | Located in | Description | Required | Schema |
@@ -203,7 +214,7 @@ Only authenticated users can access profile endpoints
 
 
 
-#### DELETE ` /api/profiles/{id}`
+#### DELETE  `/api/profiles/{id}`
 
 ##### Parameters
 
@@ -221,7 +232,7 @@ Only authenticated users can access profile endpoints
 
 
 
-#### GET ` /api/profiles`
+#### GET  `/api/profiles`
 
 **Permission:** `Admin or Agent`
 
@@ -242,7 +253,7 @@ Only authenticated users can access profile endpoints
 
 
 
-#### POST ` /api/profiles`
+#### POST  `/api/profiles`
 
 **Permission:** `Admin`
 
@@ -273,7 +284,7 @@ Only authenticated users can access profile endpoints
 
 
 
-#### PATCH `/api/profiles/{id}/subscriptions`
+#### PATCH  `/api/profiles/{id}/subscriptions`
 ##### Parameters
 
 | Name | Located in | Description | Required | Schema |
@@ -299,7 +310,7 @@ Only authenticated users can access profile endpoints
 
 
 
-#### DELETE `/api/profiles/{id}/subscriptions`
+#### DELETE  `/api/profiles/{id}/subscriptions`
 ##### Parameters
 
 | Name | Located in | Description | Required | Schema |
@@ -316,7 +327,7 @@ Only authenticated users can access profile endpoints
 
 
 
-#### GET `/api/profiles/{id}/subscriptions`
+#### GET  `/api/profiles/{id}/subscriptions`
 
 ##### Parameters
 
@@ -347,7 +358,7 @@ Only authenticated users can access user endpoints
 
 
 
-#### GET ` /api/users/{id}`
+#### GET  `/api/users/{id}`
 ##### Parameters
 
 | Name | Located in | Description | Required | Schema |
@@ -373,7 +384,7 @@ Only authenticated users can access user endpoints
 
 
 
-#### POST ` /api/users`
+#### POST  `/api/users`
 
 **Permission**: `Admin`
 
@@ -405,7 +416,7 @@ Only authenticated users can access user endpoints
 
 
 
-#### GET ` /api/users`
+#### GET  `/api/users`
 
 **Permission:** `Admin or Agent`
 
@@ -428,7 +439,7 @@ Only authenticated users can access user endpoints
 
 
 
-#### **GET** `/api/users/connected`
+#### GET  `/api/users/connected`
 
 **Permission:** `Admin or Agent`
 
