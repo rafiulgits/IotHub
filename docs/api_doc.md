@@ -85,9 +85,7 @@ Any user (including anonymous) can access authentication endpoints
 
 
 
-####  `/api/authentication/login`
-
-#### POST
+#### POST  `/api/authentication/login`
 
 **Request**
 
@@ -108,9 +106,9 @@ Any user (including anonymous) can access authentication endpoints
 
 
 
-####  `/api/authentication/internal-login`
 
-#### POST
+
+#### POST `/api/authentication/internal-login`
 
 **Request**
 
@@ -139,9 +137,7 @@ Only authenticated users can access profile endpoints
 
 
 
-#### ` /api/profiles/{id}`
-
-#### GET
+#### GET ` /api/profiles/{id}`
 
 ****
 
@@ -168,7 +164,9 @@ Only authenticated users can access profile endpoints
 
 
 
-#### PUT
+
+
+#### PUT ` /api/profiles/{id}`
 ##### Parameters
 
 | Name | Located in | Description | Required | Schema |
@@ -203,7 +201,9 @@ Only authenticated users can access profile endpoints
 
 
 
-#### DELETE
+
+
+#### DELETE ` /api/profiles/{id}`
 
 ##### Parameters
 
@@ -219,9 +219,9 @@ Only authenticated users can access profile endpoints
 
 
 
-#### ` /api/profiles`
 
-#### GET
+
+#### GET ` /api/profiles`
 
 **Permission:** `Admin or Agent`
 
@@ -242,7 +242,7 @@ Only authenticated users can access profile endpoints
 
 
 
-#### POST
+#### POST ` /api/profiles`
 
 **Permission:** `Admin`
 
@@ -273,9 +273,7 @@ Only authenticated users can access profile endpoints
 
 
 
-#### `/api/profiles/{id}/subscriptions`
-
-#### PATCH
+#### PATCH `/api/profiles/{id}/subscriptions`
 ##### Parameters
 
 | Name | Located in | Description | Required | Schema |
@@ -299,7 +297,9 @@ Only authenticated users can access profile endpoints
 
 
 
-#### DELETE
+
+
+#### DELETE `/api/profiles/{id}/subscriptions`
 ##### Parameters
 
 | Name | Located in | Description | Required | Schema |
@@ -314,7 +314,9 @@ Only authenticated users can access profile endpoints
 
 
 
-#### GET
+
+
+#### GET `/api/profiles/{id}/subscriptions`
 
 ##### Parameters
 
@@ -345,9 +347,7 @@ Only authenticated users can access user endpoints
 
 
 
-#### ` /api/users/{id}`
-
-#### GET
+#### GET ` /api/users/{id}`
 ##### Parameters
 
 | Name | Located in | Description | Required | Schema |
@@ -373,9 +373,7 @@ Only authenticated users can access user endpoints
 
 
 
-#### ` /api/users`
-
-#### POST
+#### POST ` /api/users`
 
 **Permission**: `Admin`
 
@@ -407,7 +405,7 @@ Only authenticated users can access user endpoints
 
 
 
-#### GET
+#### GET ` /api/users`
 
 **Permission:** `Admin or Agent`
 
@@ -430,9 +428,7 @@ Only authenticated users can access user endpoints
 
 
 
-#### `/api/users/connected`
-
-#### **GET**
+#### **GET** `/api/users/connected`
 
 **Permission:** `Admin or Agent`
 
