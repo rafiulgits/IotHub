@@ -1,5 +1,5 @@
 <div>
-	<p align="center"><img src="./docs/images/logo.svg" /></p>
+	<p align="center"><img src="./images/logo.svg" /></p>
    	<h2 align="center">A cloud based IoT solution</h2>
 </div>
 
@@ -7,7 +7,19 @@ IotHub provides an abstract solution of any IoT infrastructure including Broker 
 
 
 
-[Documentation](https://rafiulgits.github.io/IotHub)
+
+
+
+
+<div class="page-header">
+    <a class="btn" href="./api_doc">API Doc</a>
+    <a class="btn" href="./broker_doc">Broker Doc</a>
+    <a class="btn" href="./agent_doc">Agent Doc</a>
+</div>
+
+
+
+
 
 
 
@@ -58,7 +70,7 @@ IotHub provides an abstract solution of any IoT infrastructure including Broker 
 
 <div>
     <p align="center">
-        <img src="./docs/images/solution_architecture.svg" />
+        <img src="./images/solution_architecture.svg" />
     </p>
     <br/>
   	<h6 align="center">Solution Architecture</h6>
@@ -72,7 +84,7 @@ IotHub provides an abstract solution of any IoT infrastructure including Broker 
 
 <div>
     <p align="center">
-        <img src="./docs/images/broker_architecture.svg" />
+        <img src="./images/broker_architecture.svg" />
     </p>
     <br/>
   	<h6 align="center">Broker Architecture</h6>
@@ -109,18 +121,6 @@ Development environment is ready to use!
 To testing with MQTT clients [MQTT fx](https://mqttfx.jensd.de/index.php/download) is a good solution. See [iothub-dashboard](https://github.com/rafiulgits/iothub-dashboard) a Reactive example dashboard that will help to find out how to use IotHub solution.
 
 
-
-***
-
-
-
-### Full Documentations
-
-* [IotHub.Agent Doc](./docs/agent_doc.md)
-
-* [IotHub.Broker Doc](./docs/broker_doc.md)
-
-* [IotHub.API Doc](./docs/api_doc.md)
 
 ***
 

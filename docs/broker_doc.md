@@ -111,8 +111,9 @@ IotHub Broker allow only admin/agent to subscribe any topic. Otherwise broker wi
 IotHub broker allow only **agent** to publish `$SYS` to topic to make a request or command to MQTT broker to execute some internal execution i.e  *Request to disconnect a client, Request to get connected clients id*. Broker doesn't broadcast this agent`s system publish. broker will perform an internal execution and broadcast all respective clients about that execution as an response event. And thus agent will get the associated response of its request.
 
 
+
 <p align="center">
-	<img src="../images/system_topics.svg" />
+	<img src="./images/system_topics.svg" />
 </p>
 
 

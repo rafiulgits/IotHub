@@ -4,11 +4,7 @@ A .NET solution to host an MQTT Client as Agent and SignalR Hub. This project ma
 
 
 
-<p align="center"><img src="../images/broker_architecture.svg"/></p>
-
-
-
-
+<p align="center"><img src="./images/broker_architecture.svg"/></p>
 
 ***
 
