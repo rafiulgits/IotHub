@@ -18,7 +18,7 @@ namespace IotHub.API
                 {
                     var env = hostingContext.HostingEnvironment;
                     var sharedFolder = Path.GetFullPath(Path.Combine(env.ContentRootPath, @"..\..\"));
-                    config.AddJsonFile(Path.Combine(sharedFolder, "sharedSettings.json"), optional: false)
+                    config.AddJsonFile(Path.Combine(sharedFolder, "sharedSettings.json"), optional: true)
                           .AddJsonFile("sharedSettings.json", optional : true) //for production
                           .AddJsonFile("appsettings.json", optional: true)
                           .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
