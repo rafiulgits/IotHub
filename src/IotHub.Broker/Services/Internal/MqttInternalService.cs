@@ -85,7 +85,8 @@ namespace IotHub.Broker.Services.Internal
 
         public async Task ServeClientIPAsync(string clientId)
         {
-            var serializedData = Utf8Json.JsonSerializer.Serialize(new { IP = "NO IP" });
+            var clientStatus = await GetClientStatusAsync(clientId);
+            var serializedData = Utf8Json.JsonSerializer.Serialize(new { IP = clientStatus.Endpoint });
             var message = new MqttApplicationMessageBuilder().WithTopic(eventTopics.ClientIP(clientId))
                                                              .WithPayload(serializedData)
                                                              .Build();
