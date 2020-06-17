@@ -14,5 +14,9 @@
     <PackageReference Include="MQTTnet" Version="3.0.11" />
     <PackageReference Include="MQTTnet.Extensions.ManagedClient" Version="3.0.11" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Content Include="../../sharedSettings.json" CopyToPublishDirectory="Always" />
+  </ItemGroup>
 
 </Project>

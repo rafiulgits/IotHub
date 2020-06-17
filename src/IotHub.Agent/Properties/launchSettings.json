@@ -1,7 +1,7 @@
-﻿{
+{
   "iisSettings": {
-    "windowsAuthentication": false, 
-    "anonymousAuthentication": true, 
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
     "iisExpress": {
       "applicationUrl": "http://localhost:20587",
       "sslPort": 44344
@@ -17,8 +17,8 @@
     },
     "IotHub.Agent": {
       "commandName": "Project",
-      "launchBrowser": true,
       "applicationUrl": "https://localhost:4001;http://localhost:4000",
+      "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
