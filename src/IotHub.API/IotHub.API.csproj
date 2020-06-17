@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -12,6 +12,10 @@
   <ItemGroup>
     <ProjectReference Include="..\IotHub.DataTransferObjects\IotHub.DataTransferObjects.csproj" />
     <ProjectReference Include="..\IotHub.Services\IotHub.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="../../sharedSettings.json" CopyToPublishDirectory="Always" />
   </ItemGroup>
 
 
