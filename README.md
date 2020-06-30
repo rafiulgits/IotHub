@@ -90,7 +90,7 @@ Very first clone the project using `git clone https://github.com/rafiulgits/IotH
 
 **Required Environments**
 
-* .NET Core 3.1 or letter
+* .NET Core 3.1 or later
 * MongoDB
 
 
@@ -98,7 +98,7 @@ Very first clone the project using `git clone https://github.com/rafiulgits/IotH
 **Execution**
 
 * Build the solution by `dotnet build`
-* Go to `src/IotHub.API` and from `appSettings.json` set your internal custom credential and use this credential create some new users (including agent one) and profiles
+* Go to `src/IotHub.API` and from `appsettings.json` set your internal custom credential and use this credential create some new users (including agent one) and profiles
 * Run the `src/IotHub.Broker` development server by `dotnet watch run`
 * Go to `src/IotHub.Agent` , set agent credentials that you created earlier  and run the development server by `dotnet watch run`
 
@@ -106,7 +106,7 @@ Very first clone the project using `git clone https://github.com/rafiulgits/IotH
 
 Development environment is ready to use!
 
-To testing with MQTT clients [MQTT fx](https://mqttfx.jensd.de/index.php/download) is a good solution. See [iothub-dashboard](https://github.com/rafiulgits/iothub-dashboard) a Reactive example dashboard that will help to find out how to use IotHub solution.
+For testing with MQTT clients, [MQTT fx](https://mqttfx.jensd.de/index.php/download) is a good solution. [iothub-dashboard](https://github.com/rafiulgits/iothub-dashboard) is a Reactive example dashboard that will help to find out how to use IotHub solution.
 
 
 
