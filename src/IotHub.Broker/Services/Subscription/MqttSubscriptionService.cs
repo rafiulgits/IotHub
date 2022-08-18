@@ -41,35 +41,39 @@ namespace IotHub.Broker.Services.Subscription
 
         public async Task InterceptSubscriptionAsync(MqttSubscriptionInterceptorContext context)
         {
-            context.AcceptSubscription = false;
-            try
+            await Task.Run(() =>
             {
-                var profile = await profileService.GetProfileWithSubscriptionByUserIdAsync(context.ClientId);
-                if (context.TopicFilter.Topic.StartsWith("$SYS", System.StringComparison.OrdinalIgnoreCase) || context.TopicFilter.Topic.StartsWith("#"))
-                {
-                    if (profile.Type == Common.Enums.ProfileType.Agent)
-                    {
-                        context.AcceptSubscription = true;
-                    }
-                }
-                else if (profile.Type == Common.Enums.ProfileType.Agent)
-                {
-                    context.AcceptSubscription = true;
-                }
-                else
-                {
-                    foreach (var subscription in profile.Subscriptions)
-                    {
-                        if (MqttTopicFilterComparer.IsMatch(context.TopicFilter.Topic, subscription.Path))
-                        {
-                            context.AcceptSubscription = true;
-                        }
-                    }
-                }
-            }
-            catch(NotFoundException)
-            {
-            }
+                context.AcceptSubscription = true;
+            });
+            //context.AcceptSubscription = false;
+            //try
+            //{
+            //    var profile = await profileService.GetProfileWithSubscriptionByUserIdAsync(context.ClientId);
+            //    if (context.TopicFilter.Topic.StartsWith("$SYS", System.StringComparison.OrdinalIgnoreCase) || context.TopicFilter.Topic.StartsWith("#"))
+            //    {
+            //        if (profile.Type == Common.Enums.ProfileType.Agent)
+            //        {
+            //            context.AcceptSubscription = true;
+            //        }
+            //    }
+            //    else if (profile.Type == Common.Enums.ProfileType.Agent)
+            //    {
+            //        context.AcceptSubscription = true;
+            //    }
+            //    else
+            //    {
+            //        foreach (var subscription in profile.Subscriptions)
+            //        {
+            //            if (MqttTopicFilterComparer.IsMatch(context.TopicFilter.Topic, subscription.Path))
+            //            {
+            //                context.AcceptSubscription = true;
+            //            }
+            //        }
+            //    }
+            //}
+            //catch(NotFoundException)
+            //{
+            //}
         }
 
         public Task InterceptUnsubscriptionAsync(MqttUnsubscriptionInterceptorContext context)

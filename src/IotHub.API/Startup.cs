@@ -27,8 +27,8 @@ namespace IotHub.API
             services.AddSwaggerService();
             services.AddAutoMapper();
             services.AddConfiuredCors();
-            services.AddJwtAuthentication();
-            services.AddIotHubAuthorization();
+            // services.AddJwtAuthentication();
+            // services.AddIotHubAuthorization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,7 +39,6 @@ namespace IotHub.API
                 app.UseDeveloperExceptionPage();
             }
             app.UseIotHubExceptionHandler(env.IsDevelopment());
-            app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthentication();
             app.UseConfiguredCors();

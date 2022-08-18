@@ -1,0 +1,90 @@
+version: '3.4'
+
+services:
+  iothub.broker:
+    container_name: broker
+    build:
+      context: .
+      dockerfile: src/IotHub.Broker/Dockerfile
+    depends_on:
+      - mongodb
+    ports:
+      - 1883:1883
+      - 1884:1884
+
+  iothub.api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: src/IotHub.API/Dockerfile
+    depends_on:
+      - mongodb
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5000
+    ports:
+      - 5000:5000
+
+
+  iothub.agent:
+    container_name: agent
+    build:
+      context: .
+      dockerfile: src/IotHub.Agent/Dockerfile
+    depends_on:
+      - iothub.broker
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:4000
+    ports:
+      - 4000:4000
+
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - 27017:27017
+
+
+
+
+# version: '3.4'
+
+# services:
+#   iothub.broker:
+    
+    # volumes:
+    #   - ~/.aspnet/https:/root/.aspnet/https:ro
+    #   - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+  #   ports:
+  #     - 1883:1883
+  #     - 1884:1884
+      
+  # iothub.api:
+  #   container_name: api
+
+    # ports:
+    #   - 5000:5000
+    # volumes:
+    #   - ~/.aspnet/https:/root/.aspnet/https:ro
+    #   - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+  
+
+
+  # iothub.agent:
+  #   container_name: agent
+    # environment:
+    #   - ASPNETCORE_ENVIRONMENT=Development
+    #   - ASPNETCORE_URLS=https://+:443;http://+:80
+    # ports:
+    #   - 4000:4000
+    # depends_on:
+    #   - iothub.broker
+    # volumes:
+    #   - ~/.aspnet/https:/root/.aspnet/https:ro
+    #   - ~/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+
+  # mongodb:
+  #   container_name: mongodb
+  #   ports:
+  #     - 27017:27017

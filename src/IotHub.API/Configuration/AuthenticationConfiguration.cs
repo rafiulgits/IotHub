@@ -14,7 +14,7 @@ namespace IotHub.API.Configuration
             var jwtSettings = SettingsProvider.JwtSettings;
             var secretInBytes = System.Text.Encoding.ASCII.GetBytes(jwtSettings.Secret);
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                    .AddJwtBearer(options => 
+                    .AddJwtBearer(options =>
                     {
                         options.TokenValidationParameters = new TokenValidationParameters
                         {
